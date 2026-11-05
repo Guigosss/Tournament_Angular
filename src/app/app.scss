@@ -1,0 +1,52 @@
+@use './styles/colors' as colors;
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: colors.$background;
+  color: colors.$text;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+
+  nav {
+    width: 250px;
+    flex-shrink: 0;
+    background-color: colors.$black;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  main {
+    flex: 1;
+    min-width: 0;
+    padding: 2rem;
+    overflow-y: auto;
+  }
+}
+
+footer {
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .app-body {
+    flex-direction: column;
+
+    nav {
+      width: 100%;
+    }
+
+    main {
+      padding: 1rem;
+    }
+  }
+}

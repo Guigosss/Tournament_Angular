@@ -1,0 +1,79 @@
+@use '../../styles/colors' as colors;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.nav-container {
+  height: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+
+  .nav-title {
+    color: #82788c;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 1rem 0 0.8rem 0.5rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 5px;
+    color: #aaa0b5;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.2s;
+    font-size: 0.9rem;
+
+    span {
+      width: 20px;
+      text-align: center;
+    }
+
+    &:hover {
+      background-color: rgba(139, 24, 184, 0.15);
+      color: colors.$text;
+    }
+
+    &.active {
+      background: linear-gradient(
+        90deg,
+        colors.$primary,
+        colors.$secondary
+      );
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(139, 24, 184, 0.2);
+    }
+  }
+
+  .nav-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+    margin: 1.5rem 0;
+  }
+
+  .nav-bottom {
+    margin-top: auto;
+    padding: 1rem 0.5rem 0;
+
+    .version {
+      color: colors.$text;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    span {
+      color: #82788c;
+      font-size: 0.7rem;
+    }
+  }
+}
