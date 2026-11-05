@@ -1,5 +1,3 @@
-@use '../../styles/colors' as colors;
-
 .home-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -11,12 +9,7 @@
     padding: 3rem;
     min-height: 220px;
     border-radius: 16px;
-    background: linear-gradient(
-      120deg,
-      #7020A0,
-      #35134F,
-      #211A29
-    );
+    background: linear-gradient(120deg, #7020a0, #35134f, #211a29);
     border: 1px solid rgba(255, 255, 255, 0.08);
 
     .welcome-tag {
@@ -71,7 +64,7 @@
   }
 
   .stat-card {
-    background: colors.$surface;
+    background: var(--color-app-surface);
     border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 12px;
     padding: 1.5rem;
@@ -79,7 +72,7 @@
 
     &:hover {
       transform: translateY(-4px);
-      border-color: colors.$primary;
+      border-color: var(--color-app-primary);
     }
 
     .stat-icon {
@@ -96,7 +89,7 @@
     h3 {
       font-size: 2rem;
       margin: 0.5rem 0;
-      color: colors.$text;
+      color: var(--color-app-text);
     }
 
     small {
@@ -111,7 +104,7 @@
     gap: 2rem;
     margin-top: 2rem;
     padding: 2rem;
-    background: colors.$surface;
+    background: var(--color-app-surface);
     border: 1px solid rgba(139, 24, 184, 0.3);
     border-radius: 12px;
 
@@ -126,7 +119,7 @@
     }
 
     button {
-      background: colors.$primary;
+      background: var(--color-app-primary);
       color: white;
       border: none;
       padding: 0.9rem 1.5rem;

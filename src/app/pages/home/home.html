@@ -1,63 +1,49 @@
-<div class="home-container">
+<div class="mx-auto max-w-[1400px]">
 
-  <section class="welcome">
+  <section class="flex min-h-[220px] items-center justify-between rounded-2xl border border-white/8 bg-linear-[120deg,#7020A0,#35134F,#211A29] p-8 lg:p-12">
     <div>
-      <span class="welcome-tag">YOUR COMPETITIVE HUB</span>
-      <h1>Welcome to <span>Tournament App</span></h1>
-      <p>
+      <span class="text-xs font-bold tracking-[2px] text-[#d9a6f5]">YOUR COMPETITIVE HUB</span>
+      <h1 class="my-4 text-[clamp(1.7rem,3vw,2.6rem)] font-bold text-white">
+        Welcome to <span class="text-[#e0a8ff]">Tournament App</span>
+      </h1>
+      <p class="max-w-[550px] leading-[1.7] text-[#d5c4df]">
         Manage your tournaments, organize your teams
         and follow every match from one place.
       </p>
     </div>
 
-    <img ngSrc="assets/images/logo_tournament.png" alt="Tournament Logo" height="1024" width="1536">
+    <img ngSrc="assets/images/logo_tournament.png" alt="Tournament Logo"
+         height="1024" width="1536"
+         class="size-[90px] object-contain drop-shadow-[0_0_25px_rgba(191,13,251,0.3)] lg:size-[130px]">
   </section>
 
-  <section class="section-header">
+  <section class="mt-10 mb-6">
+    <h2 class="text-2xl font-bold">Overview</h2>
+    <p class="text-[#998da5]">Your tournament activity at a glance.</p>
+  </section>
+
+  <section class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    @for (stat of stats; track stat.label) {
+      <p-card styleClass="h-full border border-white/7 transition hover:-translate-y-1 hover:border-app-primary">
+        <div class="mb-4 text-2xl">{{ stat.icon }}</div>
+        <span class="block text-[0.85rem] text-[#b5a9bf]">{{ stat.label }}</span>
+        <h3 class="my-2 text-3xl font-bold text-app-text">{{ stat.value }}</h3>
+        <small class="text-app-muted">{{ stat.hint }}</small>
+      </p-card>
+    }
+  </section>
+
+  <section class="mt-8 flex flex-col items-start justify-between gap-8 rounded-xl border border-app-primary/30 bg-app-surface p-8 lg:flex-row lg:items-center">
     <div>
-      <h2>Overview</h2>
-      <p>Your tournament activity at a glance.</p>
-    </div>
-  </section>
-
-  <section class="stats-grid">
-
-    <div class="stat-card">
-      <div class="stat-icon">🏆</div>
-      <span>Active Tournaments</span>
-      <h3>0</h3>
-      <small>Currently running</small>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">👥</div>
-      <span>Registered Teams</span>
-      <h3>0</h3>
-      <small>Ready to compete</small>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">⚔</div>
-      <span>Total Matches</span>
-      <h3>0</h3>
-      <small>Matches organized</small>
-    </div>
-
-  </section>
-
-  <section class="getting-started">
-    <div>
-      <span class="welcome-tag">GET STARTED</span>
-      <h2>Ready to compete?</h2>
-      <p>
+      <span class="text-xs font-bold tracking-[2px] text-[#d9a6f5]">GET STARTED</span>
+      <h2 class="my-3 text-2xl font-bold">Ready to compete?</h2>
+      <p class="max-w-[600px] leading-relaxed text-app-soft">
         Your competitive journey starts here.
         Create your first tournament and bring your community together.
       </p>
     </div>
 
-    <button routerLink="/tournaments">
-      Explore tournaments →
-    </button>
+    <p-button label="Explore tournaments →" routerLink="/tournaments" />
   </section>
 
 </div>

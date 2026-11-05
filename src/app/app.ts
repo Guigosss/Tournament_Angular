@@ -7,7 +7,7 @@ import { Nav } from './layout/nav/nav';
 @Component({
   imports: [RouterOutlet, Header, Footer, Nav],
   selector: 'app-root',
-  styleUrl: './app.scss',
+  styleUrl: './app.css',
   templateUrl: './app.html',
 })
 export class App {

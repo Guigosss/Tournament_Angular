@@ -6,7 +6,7 @@ import { NgOptimizedImage } from '@angular/common';
     NgOptimizedImage
   ],
   selector: 'app-header',
-  styleUrl: './header.scss',
+  styleUrl: './header.css',
   templateUrl: './header.html',
 })
 export class Header {}

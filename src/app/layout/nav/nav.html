@@ -1,37 +1,25 @@
-<div class="nav-container">
-  <p class="nav-title">WORKSPACE</p>
+<div class="flex h-full min-h-[400px] flex-col px-4 py-6 text-app-soft">
+  @for (section of sections; track section.title) {
+    <p class="mt-4 mb-3 ml-2 text-[0.7rem] font-bold tracking-[1.5px] text-app-muted">
+      {{ section.title }}
+    </p>
 
-  <a routerLink="/home" routerLinkActive="active">
-    <span>⌂</span>
-    Dashboard
-  </a>
+    @for (link of section.links; track link.path) {
+      <a [routerLink]="link.path"
+         routerLinkActive="bg-linear-to-r from-app-primary to-app-secondary font-semibold text-white shadow-lg shadow-app-primary/20"
+         class="mb-1 flex items-center gap-3 rounded-lg px-4 py-3.5 text-[0.9rem] no-underline transition hover:bg-app-primary/15 hover:text-app-text">
+        <span class="w-5 text-center">{{ link.icon }}</span>
+        {{ link.label }}
+      </a>
+    }
 
-  <a routerLink="/tournaments" routerLinkActive="active">
-    <span>🏆</span>
-    Tournaments
-  </a>
+    @if (!$last) {
+      <p-divider />
+    }
+  }
 
-  <a routerLink="/teams" routerLinkActive="active">
-    <span>👥</span>
-    Teams
-  </a>
-
-  <a routerLink="/matches" routerLinkActive="active">
-    <span>⚔</span>
-    Matches
-  </a>
-
-  <div class="nav-divider"></div>
-
-  <p class="nav-title">MANAGEMENT</p>
-
-  <a routerLink="/settings" routerLinkActive="active">
-    <span>⚙</span>
-    Settings
-  </a>
-
-  <div class="nav-bottom">
-    <div class="version">TOURNAMENT APP</div>
-    <span>Version 1.0.0</span>
+  <div class="mt-auto px-2 pt-4">
+    <div class="text-xs font-bold tracking-wider text-app-text">TOURNAMENT APP</div>
+    <span class="text-[0.7rem] text-app-muted">Version 1.0.0</span>
   </div>
 </div>
