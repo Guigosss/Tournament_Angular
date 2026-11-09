@@ -1,12 +1,47 @@
-<div class="flex h-[75px] items-center justify-between border-b border-white/8 bg-app-black px-8">
+<header class="flex h-[75px] items-center justify-between border-b border-white/8 bg-app-black px-4 sm:px-8">
+
   <div class="flex items-center gap-3">
-    <img ngSrc="assets/images/logo_tournament.png" alt="Tournament Logo"
-         height="1024" width="1536" class="size-[45px] object-contain">
-    <h1 class="text-[1.4rem] font-bold text-app-text">Tournament App</h1>
+    <img
+      ngSrc="assets/images/logo_tournament.png"
+      alt="Tournament Logo"
+      width="1536"
+      height="1024"
+      class="size-[45px] object-contain"
+    />
+
+    <h1 class="text-xl font-bold text-app-text">
+      Tournament App
+    </h1>
   </div>
 
-  <span class="flex items-center gap-2 text-[0.8rem] text-[#aaa]">
-    <span class="size-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
-    System Online
-  </span>
-</div>
+  <div class="flex items-center gap-3">
+    @if (authService.user(); as user) {
+      <span class="text-sm text-app-text">
+        Bonjour, {{ user.username }}
+      </span>
+
+      <button
+        type="button"
+        (click)="logout()"
+        class="rounded-lg border border-white/15 px-4 py-2 text-sm text-app-text hover:border-red-500 hover:text-red-400"
+      >
+        Déconnexion
+      </button>
+    } @else {
+      <a
+        routerLink="/login"
+        class="rounded-lg border border-white/15 px-4 py-2 text-sm text-app-text hover:border-primary hover:text-primary"
+      >
+        Connexion
+      </a>
+
+      <a
+        routerLink="/register"
+        class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/80"
+      >
+        Inscription
+      </a>
+    }
+  </div>
+
+</header>

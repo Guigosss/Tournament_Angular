@@ -7,7 +7,8 @@ import { CardModule } from 'primeng/card';
 @Component({
   selector: 'app-home',
   imports: [NgOptimizedImage, RouterLink, ButtonModule, CardModule],
-  templateUrl: './home.html'
+  templateUrl: './home.html',
+  styleUrls: ['./home.css']
 })
 export class Home {
   stats = [

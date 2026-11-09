@@ -1,25 +1,33 @@
+
 <div class="flex h-full min-h-[400px] flex-col px-4 py-6 text-app-soft">
-  @for (section of sections; track section.title) {
+
+  @for (section of sections(); track section.title; let last = $last) {
     <p class="mt-4 mb-3 ml-2 text-[0.7rem] font-bold tracking-[1.5px] text-app-muted">
       {{ section.title }}
     </p>
 
     @for (link of section.links; track link.path) {
-      <a [routerLink]="link.path"
-         routerLinkActive="bg-linear-to-r from-app-primary to-app-secondary font-semibold text-white shadow-lg shadow-app-primary/20"
-         class="mb-1 flex items-center gap-3 rounded-lg px-4 py-3.5 text-[0.9rem] no-underline transition hover:bg-app-primary/15 hover:text-app-text">
+      <a
+        [routerLink]="link.path"
+        routerLinkActive="bg-linear-to-r from-app-primary to-app-secondary font-semibold text-white shadow-lg shadow-app-primary/20"
+        class="mb-1 flex items-center gap-3 rounded-lg px-4 py-3.5 text-[0.9rem] no-underline transition hover:bg-app-primary/15 hover:text-app-text">
+
         <span class="w-5 text-center">{{ link.icon }}</span>
         {{ link.label }}
+
       </a>
     }
 
-    @if (!$last) {
+    @if (!last) {
       <p-divider />
     }
   }
 
   <div class="mt-auto px-2 pt-4">
-    <div class="text-xs font-bold tracking-wider text-app-text">TOURNAMENT APP</div>
+    <div class="text-xs font-bold tracking-wider text-app-text">
+      TOURNAMENT APP
+    </div>
     <span class="text-[0.7rem] text-app-muted">Version 1.0.0</span>
   </div>
+
 </div>

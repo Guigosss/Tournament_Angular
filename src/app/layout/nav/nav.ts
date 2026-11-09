@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-nav',
@@ -8,19 +9,26 @@ import { DividerModule } from 'primeng/divider';
   templateUrl: './nav.html'
 })
 export class Nav {
-  sections = [
-    {
-      title: 'WORKSPACE',
-      links: [
-        { path: '/home', icon: '⌂', label: 'Dashboard' },
-        { path: '/tournaments', icon: '🏆', label: 'Tournaments' },
-        { path: '/teams', icon: '👥', label: 'Teams' },
-        { path: '/matches', icon: '⚔', label: 'Matches' }
-      ]
-    },
-    {
-      title: 'MANAGEMENT',
-      links: [{ path: '/settings', icon: '⚙', label: 'Settings' }]
-    }
-  ];
+  private readonly authService = inject(AuthService);
+
+  sections = computed(() => {
+    const isAuthenticated = this.authService.user() !== null;
+
+    return [
+      {
+        title: 'WORKSPACE',
+        links: [
+          { path: '/home', icon: '⌂', label: 'Accueil' },
+          ...(isAuthenticated
+            ? [{ path: '/profil', icon: '👤', label: 'Profil' }]
+            : []),
+          { path: '/tournaments', icon: '🏆', label: 'Tournois' },
+          ...(isAuthenticated
+            ? [{ path: '/teams', icon: '👥', label: 'Équipes' }]
+            : []),
+          { path: '/matches', icon: '⚔', label: 'Matches' }
+        ]
+      },
+    ];
+  });
 }
