@@ -1,3 +1,4 @@
+
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
@@ -14,21 +15,27 @@ export class Nav {
   sections = computed(() => {
     const isAuthenticated = this.authService.user() !== null;
 
-    return [
+    const sections = [
       {
         title: 'WORKSPACE',
         links: [
           { path: '/home', icon: '⌂', label: 'Accueil' },
-          ...(isAuthenticated
-            ? [{ path: '/profil', icon: '👤', label: 'Profil' }]
-            : []),
           { path: '/tournaments', icon: '🏆', label: 'Tournois' },
-          ...(isAuthenticated
-            ? [{ path: '/teams', icon: '👥', label: 'Équipes' }]
-            : []),
           { path: '/matches', icon: '⚔', label: 'Matches' }
         ]
-      },
+      }
     ];
+
+    if (isAuthenticated) {
+      sections.push({
+        title: 'MANAGEMENT',
+        links: [
+          { path: '/profil', icon: '👤', label: 'Profil' },
+          { path: '/teams', icon: '👥', label: 'Équipes' }
+        ]
+      });
+    }
+
+    return sections;
   });
 }

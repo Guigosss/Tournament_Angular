@@ -12,6 +12,12 @@ export class ProfilService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
+  searchPlayers(username: string): Observable<ProfilResponse[]> {
+    return this.http.get<ProfilResponse[]>(`${this.apiUrl}/players/search`, {
+      params: { username }
+    });
+  }
+
   getById(id: number): Observable<ProfilResponse> {
     return this.http.get<ProfilResponse>(`${this.apiUrl}/${id}`);
   }

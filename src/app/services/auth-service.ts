@@ -131,7 +131,7 @@ export class AuthService {
     sessionStorage.setItem('refreshToken', response.refreshToken);
   }
 
-  private clearSession(): void {
+  clearSession(): void {
     this.user.set(null);
 
     this.accessToken = null;

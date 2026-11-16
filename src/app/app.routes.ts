@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './services/guards/auth.guard';
+import { TeamDetail } from './pages/teams/team-detail/team-detail';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,15 @@ export const routes: Routes = [
   {
     path: 'teams',
     loadComponent: () => import('./pages/teams/teams').then((m) => m.Teams),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'teams/:id',
+    component: TeamDetail
+  },
+  {
+    path: 'teams/:id',
+    component: TeamDetail,
     canActivate: [authGuard]
   },
 ];

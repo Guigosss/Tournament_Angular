@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
 import { ProfilService } from '../../services/profil-service';
 import { NotificationResponse } from '../../models/notification.model';
@@ -17,12 +18,16 @@ export class Profil implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly profilService = inject(ProfilService);
   private readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
 
   expandedNotificationId = signal<number | null>(null);
   loading = signal(false);
   saving = false;
   errorMessage = '';
   successMessage = '';
+  activeTab = signal<'account' | 'notifications'>('account');
+  deleting = false;
+  showDeleteModal = signal(false);
 
   private userId: number | null = null;
 
@@ -47,6 +52,31 @@ export class Profil implements OnInit {
     this.userId = user.id;
     this.loadProfil();
     this.loadNotifications();
+  }
+
+  confirmDeleteAccount(): void {
+    this.showDeleteModal.set(true);
+  }
+
+  deleteAccount(): void {
+    if (this.userId === null || this.deleting) return;
+
+    this.deleting = true;
+    this.errorMessage = '';
+
+    this.profilService.delete(this.userId).subscribe({
+      next: () => {
+        this.authService.clearSession();
+        this.router.navigate(['/login']);
+      },
+      error: error => {
+        this.errorMessage =
+          error.error?.message ?? 'Impossible de supprimer votre compte.';
+
+        this.deleting = false;
+        this.showDeleteModal.set(false);
+      }
+    });
   }
 
   loadProfil(): void {

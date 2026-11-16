@@ -13,6 +13,13 @@ export class TeamInvitationService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
+  invite(teamId: number, playerId: number): Observable<TeamInvitationResponse> {
+    return this.http.post<TeamInvitationResponse>(
+      `${this.apiUrl}/teams/${teamId}/invitations`,
+      { playerId }
+    );
+  }
+
   getMine(): Observable<TeamInvitationResponse[]> {
     return this.http.get<TeamInvitationResponse[]>(
       `${this.apiUrl}/invitations`
