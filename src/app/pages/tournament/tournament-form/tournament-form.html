@@ -1,0 +1,70 @@
+<p-card header="Tournament">
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="field">
+      <label for="name">Name</label>
+      <input pInputText id="name" formControlName="name" />
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="maxParticipants">Maximum participants</label>
+      <input pInputText type="number" id="maxParticipants" formControlName="maxParticipants" />
+    </div>
+
+    <div class="field">
+      <label>Format</label>
+      <p-select
+        [options]="formats"
+        formControlName="format"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a format"
+      />
+    </div>
+
+    <div class="field">
+      <label>Participant type</label>
+      <p-select
+        [options]="participantTypes"
+        formControlName="participantType"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a participant type"
+      />
+    </div>
+
+    <div class="field">
+      <label for="registrationStartDate">Registration start</label>
+      <input type="datetime-local" id="registrationStartDate" formControlName="registrationStartDate" />
+    </div>
+
+    <div class="field">
+      <label for="registrationEndDate">Registration end</label>
+      <input type="datetime-local" id="registrationEndDate" formControlName="registrationEndDate" />
+    </div>
+
+    <div class="field">
+      <label for="startDate">Tournament start</label>
+      <input type="datetime-local" id="startDate" formControlName="startDate" />
+    </div>
+
+    <div class="field">
+      <label for="endDate">Tournament end</label>
+      <input type="datetime-local" id="endDate" formControlName="endDate" />
+    </div>
+
+    @if (errorMessage()) {
+      <p>{{ errorMessage() }}</p>
+    }
+
+    <p-button label="Save tournament" type="submit" />
+
+  </form>
+
+</p-card>

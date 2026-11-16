@@ -1,0 +1,36 @@
+@if (errorMessage()) {
+  <p>{{ errorMessage() }}</p>
+}
+
+@if (tournament(); as detail) {
+  <p-card [header]="detail.tournament.name">
+
+    <p>{{ detail.tournament.description }}</p>
+
+    <p>Statut : {{ detail.tournament.status }}</p>
+
+    <p>Format : {{ detail.tournament.format }}</p>
+
+    <p>Type de participants : {{ detail.tournament.participantType }}</p>
+
+    <p>
+      Participants :
+      {{ detail.participantCount }} / {{ detail.tournament.maxParticipants }}
+    </p>
+
+    <p>
+      Début du tournoi : {{ detail.tournament.startDate }}
+    </p>
+
+    <p>
+      Fin du tournoi : {{ detail.tournament.endDate }}
+    </p>
+
+    <p-button
+      label="Modifier le tournoi"
+      icon="pi pi-pencil"
+      (onClick)="editTournament()"
+    />
+
+  </p-card>
+}

@@ -1,0 +1,13 @@
+<h1>Tournaments list</h1>
+
+@if (tournaments$ | async; as tournaments) {
+  @for (tournament of tournaments; track tournament.id) {
+    <p-card [header]="tournament.name" class="tournament-card">
+      <p>{{ tournament.description }}</p>
+      <p>Status : {{ tournament.status }}</p>
+      <p>Format : {{ tournament.format }}</p>
+    </p-card>
+  } @empty {
+    <p>No tournaments available.</p>
+  }
+}

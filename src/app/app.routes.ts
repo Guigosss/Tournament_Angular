@@ -23,12 +23,38 @@ export const routes: Routes = [
   {
     path: 'profil',
     loadComponent: () => import('./pages/profil/profil').then((m) => m.Profil),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
     path: 'teams',
     loadComponent: () => import('./pages/teams/teams').then((m) => m.Teams),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+  },
+  {
+    path: 'tournaments',
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./pages/tournament/tournament-list/tournament-list').then((m) => m.TournamentList),
+      },
+      {
+        path: 'new',
+        loadComponent: () => import('./pages/tournament/tournament-form/tournament-form').then((m) => m.TournamentForm),
+      },
+      {
+        path: ':id/edit',
+        loadComponent: () => import('./pages/tournament/tournament-form/tournament-form').then((m) => m.TournamentForm),
+      },
+      {
+        path: ':id',
+        loadComponent: () => import('./pages/tournament/tournament-detail/tournament-detail').then((m) => m.TournamentDetail),
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '/home',
   },
   {
     path: 'teams/:id',
