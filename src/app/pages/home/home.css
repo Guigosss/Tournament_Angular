@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 .home-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -156,4 +158,8 @@
       flex-direction: column;
     }
   }
+}
+
+.section-content {
+  @apply flex min-h-[220px] items-center justify-between gap-8 rounded-2xl p-6 md:p-8 lg:p-12;
 }

@@ -1,0 +1,27 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment';
+import { NotificationResponse } from '../models/notification.model';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class NotificationService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
+
+  getMine(): Observable<NotificationResponse[]> {
+    return this.http.get<NotificationResponse[]>(
+      `${this.apiUrl}/notifications`
+    );
+  }
+
+  markRead(notificationId: number): Observable<NotificationResponse> {
+    return this.http.patch<NotificationResponse>(
+      `${this.apiUrl}/notifications/${notificationId}/read`,
+      null
+    );
+  }
+}

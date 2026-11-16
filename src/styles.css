@@ -1,17 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @import "tailwindcss-primeui";
 @import "primeicons/primeicons.css";
 
-@theme {
-  --color-app-bg: #17111d;
-  --color-app-black: #0d0a12;
-  --color-app-surface: #211a29;
-  --color-app-text: #f3edf7;
-  --color-app-primary: #8b18b8;
-  --color-app-secondary: #bf0dfb;
-  --color-app-muted: #82788c;
-  --color-app-soft: #aaa0b5;
-}
 
 app-root,
 app-header,
