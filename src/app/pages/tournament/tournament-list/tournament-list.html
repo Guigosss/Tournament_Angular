@@ -1,13 +1,49 @@
-<h1>Tournaments list</h1>
+<div class="mx-auto w-full max-w-5xl p-6">
 
-@if (tournaments$ | async; as tournaments) {
-  @for (tournament of tournaments; track tournament.id) {
-    <p-card [header]="tournament.name" class="tournament-card">
-      <p>{{ tournament.description }}</p>
-      <p>Status : {{ tournament.status }}</p>
-      <p>Format : {{ tournament.format }}</p>
-    </p-card>
-  } @empty {
-    <p>No tournaments available.</p>
+  <!-- Header -->
+  <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+    <div>
+      <h1 class="text-3xl font-bold text-app-text">List of tournaments</h1>
+
+      <p class="mt-2 text-app-muted">Find available tournaments and view the information.</p>
+    </div>
+
+    <button
+      pButton
+      type="button"
+      routerLink="/tournaments/new"
+    >
+      <i class="pi pi-plus"></i>
+      <span>Create a tournament</span>
+    </button>
+
+  </div>
+
+  <!-- Tournament list -->
+  @if (tournaments$ | async; as tournaments) {
+
+    @if (tournaments.length === 0) {
+
+      <section class="rounded-2xl border border-white/10 bg-[#211A29] p-10 text-center">
+
+        <i class="pi pi-trophy mb-4 text-4xl text-[#a83bd8]"></i>
+
+        <h2 class="mb-2 text-xl font-semibold text-app-text">No tournaments available</h2>
+
+        <p class="text-sm text-app-muted">There is no tournament yet. Why not create the first one?</p>
+
+      </section>
+
+    } @else {
+
+      <div class="flex flex-col gap-5">
+        @for (tournament of tournaments; track tournament.id) {
+          <app-tournament-card [tournament]="tournament" />
+        }
+      </div>
+
+    }
   }
-}
+
+</div>

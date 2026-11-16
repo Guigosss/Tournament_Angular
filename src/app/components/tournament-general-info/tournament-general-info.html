@@ -1,0 +1,85 @@
+<section
+  [formGroup]="form()"
+  class="mb-6 rounded-2xl border border-white/10 bg-[#211A29] p-6"
+>
+
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-app-text">General information</h2>
+    <p class="mt-1 text-sm text-app-muted">Define the name, description, and rules for your tournament.</p>
+  </div>
+
+  <!-- Name -->
+  <div class="mb-6">
+    <label for="name" class="mb-2 block text-sm font-medium text-app-soft">Tournament name</label>
+
+    <input
+      pInputText
+      id="name"
+      formControlName="name"
+      placeholder="Ex. : Tournament Summer 2026"
+      class="w-full"
+    />
+  </div>
+
+  <!-- Description -->
+  <div class="mb-6">
+    <label for="description" class="mb-2 block text-sm font-medium text-app-soft">Description</label>
+
+    <textarea
+      id="description"
+      formControlName="description"
+      rows="4"
+      placeholder="Introduce your tournament..."
+      class="w-full rounded-xl border border-white/10 bg-[#17131D] px-4 py-3 text-app-text outline-none transition placeholder:text-app-muted focus:border-[#a83bd8]"
+    ></textarea>
+  </div>
+
+  <!-- Participants -->
+  <div class="mb-6">
+    <label for="maxParticipants" class="mb-2 block text-sm font-medium text-app-soft">Maximum number of participants</label>
+
+    <input
+      pInputText
+      type="number"
+      id="maxParticipants"
+      formControlName="maxParticipants"
+      placeholder="Ex : 16"
+      class="w-full"
+    />
+  </div>
+
+  <!-- Format -->
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+    <div>
+      <label for="format" class="mb-2 block text-sm font-medium text-app-soft">Tournament format</label>
+
+      <p-select
+        inputId="format"
+        [options]="formats()"
+        formControlName="format"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a format"
+        pStyleClass="w-full"
+      />
+    </div>
+
+    <!-- Participant type -->
+    <div>
+      <label for="participantType" class="mb-2 block text-sm font-medium text-app-soft">Type of participants</label>
+
+      <p-select
+        inputId="participantType"
+        [options]="participantTypes()"
+        formControlName="participantType"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a type"
+        pStyleClass="w-full"
+      />
+    </div>
+
+  </div>
+
+</section>

@@ -1,0 +1,33 @@
+<section class="mb-6 rounded-2xl border border-white/10 bg-[#211A29] p-6">
+
+  <h2 class="mb-6 text-xl font-semibold text-app-text">Tournament schedule</h2>
+
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+
+    <!-- Start -->
+    <div class="flex items-start gap-4">
+      <div class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#7020A0]/20">
+        <i class="pi pi-calendar-plus text-lg text-[#c45cf5]"></i>
+      </div>
+
+      <div>
+        <p class="mb-1 text-sm text-app-muted">Start of tournament</p>
+        <p class="font-semibold text-app-text">{{ tournament().startDate }}</p>
+      </div>
+    </div>
+
+    <!-- Fin -->
+    <div class="flex items-start gap-4">
+      <div class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#7020A0]/20">
+        <i class="pi pi-calendar-minus text-lg text-[#c45cf5]"></i>
+      </div>
+
+      <div>
+        <p class="mb-1 text-sm text-app-muted">End of tournament</p>
+        <p class="font-semibold text-app-text">{{ tournament().endDate }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</section>

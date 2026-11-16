@@ -1,13 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { TournamentService } from '../../../services/tournament.service';
 import { TournamentDetail as TournamentDetailModel } from '../../../models/tournament.model';
+import { TournamentOverview } from '../../../components/tournament-overview/tournament-overview';
+import { TournamentParticipants } from '../../../components/tournament-participants/tournament-participants';
+import { TournamentCalendar } from '../../../components/tournament-calendar/tournament-calendar';
 
 @Component({
   selector: 'app-tournament-detail',
-  imports: [CardModule, ButtonModule],
+  standalone: true,
+  imports: [ButtonDirective, TournamentOverview, TournamentParticipants, TournamentCalendar],
   templateUrl: './tournament-detail.html',
   styleUrl: './tournament-detail.css',
 })
@@ -28,15 +31,9 @@ export class TournamentDetail {
     }
 
     this._tournamentService.getTournament(id).subscribe({
-      next: (tournament) => {
-        this.tournament.set(tournament);
-      },
+      next: (tournament) => this.tournament.set(tournament),
       error: (error) => {
-        console.error('Failed to load tournament');
-        console.error('Status:', error.status);
-        console.error('Message:', error.message);
-        console.error('Error details:', error.error);
-
+        console.error('Failed to load tournament', error);
         this.errorMessage.set('Unable to load tournament.');
       }
     });

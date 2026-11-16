@@ -21,8 +21,8 @@ export const TournamentPreset = definePreset(Aura, {
 
       color: '#a83bd8',
       contrastColor: '#ffffff',
-      hoverColor: '#c45cf5',
-      activeColor: '#8d28b9'
+      hoverColor: '#8d28b9',
+      activeColor: '#7020a0'
     },
 
     // Dark mode
@@ -30,7 +30,7 @@ export const TournamentPreset = definePreset(Aura, {
       dark: {
         primary: {
           color: '#c45cf5',
-          contrastColor: '#21132d',
+          contrastColor: '#ffffff',
           hoverColor: '#d58aff',
           activeColor: '#a83bd8'
         },
@@ -47,11 +47,11 @@ export const TournamentPreset = definePreset(Aura, {
           700: '#392d45',
           800: '#2b2135',
           900: '#211a29',
-          950: '#17111e'
+          950: '#17131D'
         },
 
         highlight: {
-          background: '#7020a0',
+          background: '#7020A0',
           focusBackground: '#8d28b9',
           color: '#ffffff',
           focusColor: '#ffffff'
@@ -74,8 +74,8 @@ export const TournamentPreset = definePreset(Aura, {
       colorScheme: {
         dark: {
           root: {
-            background: 'linear-gradient(to bottom right, #7020A0 0%, #35134F 50%, #211A29 100%)',
-            color: '#ffffff'
+            background: '#211A29',
+            color: '#F5F0F7'
           },
           body: {
             padding: '1.5rem',

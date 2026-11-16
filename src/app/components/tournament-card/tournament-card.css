@@ -1,0 +1,20 @@
+:host ::ng-deep .tournament-card .p-card {
+  background: #211A29;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 16px;
+  color: white;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+:host ::ng-deep .tournament-card .p-card:hover {
+  border-color: rgb(168 59 216 / 50%);
+  transform: translateY(-2px);
+}
+
+:host ::ng-deep .tournament-card .p-card-body {
+  padding: 24px;
+}
+
+:host ::ng-deep .tournament-card .p-card-content {
+  padding: 0;
+}

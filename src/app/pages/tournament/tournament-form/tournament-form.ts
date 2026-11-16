@@ -1,19 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-
-import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
-
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { ButtonDirective } from 'primeng/button';
 import { TournamentService } from '../../../services/tournament.service';
 import { TournamentFormat, ParticipantType } from '../../../models/tournament.enums';
 import { PARTICIPANT_TYPES, TOURNAMENT_FORMATS } from '../../../models/tournament-options';
+import { TournamentSchedule } from '../../../components/tournament-schedule/tournament-schedule';
+import { TournamentGeneralInfo } from '../../../components/tournament-general-info/tournament-general-info';
 
 @Component({
   selector: 'app-tournament-form',
-  imports: [ReactiveFormsModule, CardModule, InputTextModule, ButtonModule, SelectModule],
+  imports: [ReactiveFormsModule, RouterLink, ButtonDirective, TournamentGeneralInfo, TournamentSchedule],
   templateUrl: './tournament-form.html',
   styleUrl: './tournament-form.css',
 })

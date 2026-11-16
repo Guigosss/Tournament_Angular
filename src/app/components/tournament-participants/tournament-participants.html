@@ -1,0 +1,19 @@
+<section class="mb-6 rounded-2xl border border-white/10 bg-[#211A29] p-6">
+
+  <h2 class="mb-2 text-xl font-semibold text-app-text">Participants</h2>
+
+  <p class="mb-5 text-sm text-app-muted">Number of registered participants relative to the maximum capacity.</p>
+
+  <div class="flex items-center justify-between">
+    <div>
+      <p class="text-3xl font-bold text-[#c45cf5]">
+        {{ participantCount() }}
+        <span class="text-lg font-medium text-app-muted">/ {{ maxParticipants() }}</span>
+      </p>
+      <p class="mt-1 text-xs text-app-muted">Registered participants</p>
+    </div>
+
+    <i class="pi pi-users text-3xl text-[#7020A0]"></i>
+  </div>
+
+</section>

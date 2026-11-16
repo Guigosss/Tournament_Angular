@@ -1,36 +1,46 @@
-@if (errorMessage()) {
-  <p>{{ errorMessage() }}</p>
-}
+<div class="mx-auto w-full max-w-5xl p-6">
 
-@if (tournament(); as detail) {
-  <p-card [header]="detail.tournament.name">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-app-text">Tournament Details</h1>
+    <p class="mt-2 text-app-muted">Review the information and settings for your tournament.</p>
+  </div>
 
-    <p>{{ detail.tournament.description }}</p>
+  <!-- Error -->
+  @if (errorMessage()) {
+    <div class="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-4">
+      <p class="text-sm text-red-400">{{ errorMessage() }}</p>
+    </div>
+  }
 
-    <p>Statut : {{ detail.tournament.status }}</p>
+  @if (tournament(); as detail) {
 
-    <p>Format : {{ detail.tournament.format }}</p>
+    <!-- General infos -->
+    <app-tournament-overview [tournament]="detail.tournament" />
 
-    <p>Type de participants : {{ detail.tournament.participantType }}</p>
-
-    <p>
-      Participants :
-      {{ detail.participantCount }} / {{ detail.tournament.maxParticipants }}
-    </p>
-
-    <p>
-      Début du tournoi : {{ detail.tournament.startDate }}
-    </p>
-
-    <p>
-      Fin du tournoi : {{ detail.tournament.endDate }}
-    </p>
-
-    <p-button
-      label="Modifier le tournoi"
-      icon="pi pi-pencil"
-      (onClick)="editTournament()"
+    <!-- Participants -->
+    <app-tournament-participants
+      [participantCount]="detail.participantCount"
+      [maxParticipants]="detail.tournament.maxParticipants"
     />
 
-  </p-card>
-}
+    <!-- Calendar -->
+    <app-tournament-calendar [tournament]="detail.tournament" />
+
+    <!-- Actions -->
+    <div class="flex justify-end">
+
+      <button
+        pButton
+        type="button"
+        (click)="editTournament()"
+      >
+        <i class="pi pi-pencil"></i>
+        <span>Modifier le tournoi</span>
+      </button>
+
+    </div>
+
+  }
+
+</div>
