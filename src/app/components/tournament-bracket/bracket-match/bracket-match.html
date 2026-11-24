@@ -1,0 +1,42 @@
+<div class="flex items-center justify-between px-3 py-2">
+  <span class="text-xs text-app-muted">Match {{ match().orderIndex }}</span>
+
+  <div class="flex items-center gap-1">
+    <p-tag [value]="statusLabel()" [severity]="statusSeverity()" />
+
+    @if (canEnterResult()) {
+      <button
+        pButton
+        type="button"
+        severity="secondary"
+        size="small"
+        aria-label="Enter result"
+        [iconOnly]="true"
+        [text]="true"
+        [rounded]="true"
+        (click)="resultRequested.emit(match())"
+      >
+
+        <i class="pi pi-pencil"></i>
+      </button>
+    }
+  </div>
+</div>
+
+@for (row of rows(); track $index) {
+  <div
+    class="flex items-center gap-2 border-t border-app-border px-3 py-2"
+    [class]="row.isWinner ? 'bg-app-primary/10 font-semibold' : ''"
+  >
+    <span
+      class="min-w-0 flex-1 truncate"
+      [class]="row.isEmpty ? 'italic text-app-muted' : 'text-app-text'"
+    >
+      {{ row.name }}
+    </span>
+
+    @if (showScores()) {
+      <p-badge [value]="row.score ?? 0" [severity]="row.isWinner ? 'success' : 'secondary'" />
+    }
+  </div>
+}

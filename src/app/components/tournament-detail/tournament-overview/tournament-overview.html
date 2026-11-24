@@ -23,6 +23,13 @@
         </button>
       }
 
+      @if (tournament().status === 'IN_PROGRESS' || tournament().status === 'FINISHED') {
+        <a pButton [routerLink]="['/tournaments', tournament().id, 'bracket']">
+          <i class="pi pi-sitemap"></i>
+          <span>View bracket</span>
+        </a>
+      }
+
       @if (isRegistrationOpen()) {
         <app-tournament-registration
           [tournamentId]="tournament().id"

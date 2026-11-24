@@ -128,3 +128,38 @@ app-nav {
 @utility breadcrumb-plain {
   @apply block [--p-breadcrumb-background:transparent] [--p-breadcrumb-padding:0];
 }
+
+/* Carte d'un match dans le bracket */
+@utility match-box {
+  @apply flex w-64 flex-col overflow-hidden rounded-xl border border-app-border bg-app-surface;
+}
+
+/* ---------- Bracket ---------- */
+/* Emplacement d'un match : chaque match est centré dans sa part de hauteur de la colonne */
+@utility bracket-slot {
+  @apply relative flex flex-1 items-center py-2;
+}
+
+/* Trait à gauche du match (il vient du round précédent). 1rem = la moitié de l'écart gap-8 entre colonnes */
+@utility bracket-link-in {
+  &::before {
+    content: '';
+    @apply absolute right-full top-1/2 w-4 border-t-2 border-app-primary/40;
+  }
+}
+
+/* Trait à droite du match + branche vers le bas (match d'indice pair) */
+@utility bracket-link-out-down {
+  &::after {
+    content: '';
+    @apply absolute left-full top-1/2 h-1/2 w-4 border-t-2 border-r-2 border-app-primary/40;
+  }
+}
+
+/* Trait à droite du match + branche vers le haut (match d'indice impair) */
+@utility bracket-link-out-up {
+  &::after {
+    content: '';
+    @apply absolute bottom-1/2 left-full h-1/2 w-4 border-b-2 border-r-2 border-app-primary/40;
+  }
+}

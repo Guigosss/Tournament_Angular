@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { Divider } from 'primeng/divider';
@@ -25,7 +25,7 @@ const STATUS_SEVERITY: Record<TournamentStatus, TagSeverity> = {
 @Component({
   selector: 'app-tournament-overview',
   standalone: true,
-  imports: [DatePipe, Card, Divider, Tag, TournamentRegistration, TournamentInfoTile, ButtonDirective],
+  imports: [DatePipe, Card, Divider, Tag, TournamentRegistration, TournamentInfoTile, ButtonDirective, RouterLink],
   templateUrl: './tournament-overview.html',
 })
 export class TournamentOverview {

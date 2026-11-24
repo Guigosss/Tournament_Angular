@@ -1,0 +1,19 @@
+<h2 class="text-center text-heading">{{ title() }}</h2>
+
+<div class="flex flex-1 flex-col">
+  @for (match of matches(); track match.id) {
+    <div
+      class="bracket-slot"
+      [class.bracket-link-in]="hasPrevious()"
+      [class.bracket-link-out-down]="hasNext() && $even"
+      [class.bracket-link-out-up]="hasNext() && !$even"
+    >
+      <app-bracket-match
+        [match]="match"
+        [names]="names()"
+        [editable]="editable()"
+        (resultRequested)="resultRequested.emit($event)"
+      />
+    </div>
+  }
+</div>

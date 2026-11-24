@@ -31,6 +31,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'teams/:id',
+    component: TeamDetail,
+    canActivate: [authGuard],
+  },
+  {
     path: 'tournaments',
     canActivate: [authGuard],
     children: [
@@ -47,6 +52,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/tournament/tournament-form/tournament-form').then((m) => m.TournamentForm),
       },
       {
+        path: ':id/bracket',
+        loadComponent: () => import('./pages/tournament/tournament-bracket/tournament-bracket').then((m) => m.TournamentBracket),
+      },
+      {
         path: ':id',
         loadComponent: () => import('./pages/tournament/tournament-detail/tournament-detail').then((m) => m.TournamentDetail),
       },
@@ -55,14 +64,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: '/home',
-  },
-  {
-    path: 'teams/:id',
-    component: TeamDetail
-  },
-  {
-    path: 'teams/:id',
-    component: TeamDetail,
-    canActivate: [authGuard]
   },
 ];

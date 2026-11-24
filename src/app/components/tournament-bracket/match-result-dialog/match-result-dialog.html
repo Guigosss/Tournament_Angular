@@ -1,0 +1,46 @@
+<p-dialog
+  header="Enter the result"
+  [modal]="true"
+  [style]="{ width: '26rem' }"
+  [visible]="visible()"
+  (visibleChange)="visible.set($event)"
+>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-5">
+
+    <app-form-field
+      [label]="player1()"
+      inputId="score1"
+      error="Enter a score (0 or more)."
+      [control]="form.controls.score1"
+    >
+      <p-inputnumber inputId="score1" formControlName="score1" [min]="0" [showButtons]="true" [fluid]="true" />
+    </app-form-field>
+
+    <app-form-field
+      [label]="player2()"
+      inputId="score2"
+      error="Enter a score (0 or more)."
+      [control]="form.controls.score2"
+    >
+      <p-inputnumber inputId="score2" formControlName="score2" [min]="0" [showButtons]="true" [fluid]="true" />
+    </app-form-field>
+
+    @if (errorMessage()) {
+      <p-message severity="error">{{ errorMessage() }}</p-message>
+    }
+
+    <div class="flex justify-end gap-3">
+      <button pButton type="button" severity="secondary" [outlined]="true" (click)="visible.set(false)">
+        Cancel
+      </button>
+
+      <button pButton type="submit" [disabled]="saving()">
+        <i class="pi pi-check"></i>
+        <span>{{ saving() ? 'Saving...' : 'Save result' }}</span>
+      </button>
+    </div>
+
+  </form>
+
+</p-dialog>

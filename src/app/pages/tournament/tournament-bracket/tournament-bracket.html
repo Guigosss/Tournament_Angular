@@ -1,0 +1,61 @@
+<div class="page-container-wide">
+
+  <p-breadcrumb class="breadcrumb-plain mb-6" [model]="breadcrumb()" />
+
+  @if (hasError()) {
+
+    <p-message class="block" severity="error">Unable to load the bracket.</p-message>
+
+  } @else if (bracket()) {
+
+    @if (rounds().length === 0) {
+
+      <app-empty-state
+        icon="pi pi-sitemap"
+        heading="No bracket yet"
+        message="The bracket will appear here once the tournament has been generated."
+      />
+
+    } @else {
+
+      <p-scrollarea [mask]="true">
+
+        <p-scrollarea-viewport>
+          <p-scrollarea-content class="flex gap-8 pb-4">
+            @for (round of rounds(); track round.id) {
+              <app-bracket-round
+                [round]="round"
+                [names]="names()"
+                [hasPrevious]="!$first"
+                [hasNext]="!$last"
+                [editable]="isOrganizer()"
+                (resultRequested)="openResult($event)"
+              />
+            }
+          </p-scrollarea-content>
+        </p-scrollarea-viewport>
+
+        <p-scrollarea-scrollbar orientation="horizontal">
+          <p-scrollarea-handle />
+        </p-scrollarea-scrollbar>
+
+      </p-scrollarea>
+
+    }
+
+  } @else {
+
+    <!-- Loading -->
+    <p-skeleton height="20rem" borderRadius="1rem" />
+
+  }
+
+  <app-match-result-dialog
+    [visible]="dialogVisible()"
+    (visibleChange)="dialogVisible.set($event)"
+    [match]="selectedMatch()"
+    [names]="names()"
+    (saved)="reloadBracket()"
+  />
+
+</div>

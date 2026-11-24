@@ -40,3 +40,9 @@ export interface BracketParticipant {
   userId: number | null;
   teamId: number | null;
 }
+
+export interface MatchResultRequest {
+  score1: number;
+  score2: number;
+  winnerId: number;
+}

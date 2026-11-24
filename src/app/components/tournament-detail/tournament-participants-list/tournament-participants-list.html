@@ -1,116 +1,90 @@
 <p-card class="fill-card">
-
   <ng-template #title>
-    <span class="flex items-center gap-2">
-      Registered participants
-      <p-badge [value]="participants().length" severity="secondary" />
-    </span>
+    <div class="flex items-center gap-3">
+      <span>Registered participants</span>
+      <p-badge [value]="validatedCount()" severity="secondary" />
+    </div>
   </ng-template>
 
-  @if (errorMessage()) {
-    <p-message class="mb-4 block" severity="error">{{ errorMessage() }}</p-message>
-  }
-
-  <p-iconfield class="mb-4 mt-2 block">
+  <p-iconfield class="mb-3">
     <p-inputicon class="pi pi-search" />
-    <input
-      pInputText
-      type="text"
-      class="w-full"
-      placeholder="Search..."
-      [value]="search()"
-      (input)="onSearch($event)"
-    />
+    <input pInputText type="text" placeholder="Search..." class="w-full" [value]="search()" (input)="onSearch($event)" />
   </p-iconfield>
 
-  @if (participants().length === 0) {
+  @if (isOrganizer()) {
+    <div class="mb-3 flex flex-wrap gap-2">
+      @for (filter of filters; track filter.value) {
+        <button
+          pButton
+          type="button"
+          size="small"
+          [outlined]="statusFilter() !== filter.value"
+          (click)="statusFilter.set(filter.value)"
+        >
+          {{ filter.label }} ({{ countFor(filter.value) }})
+        </button>
+      }
+    </div>
+  }
 
-    <app-empty-state
-      icon="pi pi-users"
-      heading="No participants yet."
-      message="When users register, they will appear here."
-    />
+  @if (errorMessage(); as error) {
+    <p-message severity="error" class="mb-3">{{ error }}</p-message>
+  }
 
+  @if (filteredRegistrations().length === 0) {
+    <app-empty-state icon="pi pi-users" heading="No participants" message="Nothing to show for this filter." />
   } @else {
-
-    <p-scrollarea class="h-128" [mask]="true">
-
+    <p-scrollarea>
       <p-scrollarea-viewport>
-        <p-scrollarea-content class="flex flex-col gap-1 pr-3">
+        <p-scrollarea-content>
+          @for (registration of filteredRegistrations(); track registration.id) {
+            <div class="flex items-center gap-3 p-3 hover:bg-app-surface">
+              <p-avatar [label]="initials(registration)" shape="circle" />
 
-          @for (participant of filteredParticipants(); track participant.id) {
-            <div class="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-app-surface">
-
-              <p-avatar
-                [label]="initials(participant)"
-                shape="circle"
-                size="large"
-                class="icon-badge shrink-0 font-semibold"
-              />
-
-              <div class="min-w-0 flex-1">
-                <p class="truncate font-medium text-app-text">
-                  {{ participant.username || participant.teamName || 'Unknown participant' }}
-                </p>
-
-                @if (participant.registerDate) {
-                  <p class="text-xs text-app-muted">Registered on {{ participant.registerDate | date:'dd/MM/yyyy' }}</p>
-                }
+              <div class="flex min-w-0 flex-1 flex-col">
+                <span class="truncate">{{ registration.username || registration.teamName }}</span>
+                <span class="text-hint">Registered on {{ registration.registerDate | date: 'dd/MM/yyyy' }}</span>
               </div>
 
-              @if (participant.status) {
-                <p-tag [value]="statusLabel(participant.status)" [severity]="statusSeverity(participant.status)" />
-              }
+              <p-tag [value]="statusLabels[registration.status]" [severity]="statusSeverities[registration.status]" />
 
-              @if (isOrganizer() && participant.status !== 'EXCLUDED') {
-                <div class="flex gap-1">
-                  @if (participant.status === 'PENDING') {
-                    <button
-                      pButton
-                      type="button"
-                      severity="success"
-                      size="small"
-                      aria-label="Validate"
-                      [iconOnly]="true"
-                      [text]="true"
-                      [rounded]="true"
-                      [disabled]="loadingParticipantId() !== null"
-                      (click)="validate(participant)"
-                    >
-                      <i class="pi pi-check"></i>
-                    </button>
-                  }
-
+              @if (isOrganizer()) {
+                @if (registration.status === 'PENDING') {
                   <button
                     pButton
                     type="button"
-                    severity="danger"
-                    size="small"
-                    aria-label="Exclude"
                     [iconOnly]="true"
                     [text]="true"
-                    [rounded]="true"
+                    severity="success"
+                    aria-label="Validate"
                     [disabled]="loadingParticipantId() !== null"
-                    (click)="exclude(participant)"
+                    (click)="validate(registration)"
+                  >
+                    <i class="pi pi-check"></i>
+                  </button>
+                }
+                @if (registration.status !== 'EXCLUDED') {
+                  <button
+                    pButton
+                    type="button"
+                    [iconOnly]="true"
+                    [text]="true"
+                    severity="danger"
+                    aria-label="Exclude"
+                    [disabled]="loadingParticipantId() !== null"
+                    (click)="exclude(registration)"
                   >
                     <i class="pi pi-times"></i>
                   </button>
-                </div>
+                }
               }
-
             </div>
-          } @empty {
-            <p class="py-4 text-center text-hint">No participant matches your search.</p>
           }
-
         </p-scrollarea-content>
       </p-scrollarea-viewport>
-
-      <p-scrollarea-scrollbar orientation="vertical">
+      <p-scrollarea-scrollbar>
         <p-scrollarea-handle />
       </p-scrollarea-scrollbar>
-
     </p-scrollarea>
-
   }
 </p-card>

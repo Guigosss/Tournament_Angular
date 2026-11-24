@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Registration } from '../models/registration.model';
 
 @Injectable({providedIn: 'root'})
 export class RegistrationService {
@@ -29,4 +30,7 @@ export class RegistrationService {
     return this.http.patch(`${this.apiUrl}/${tournamentId}/registrations/teams/${teamId}/exclude`, {});
   }
 
+  getRegistrations(tournamentId: number): Observable<Registration[]> {
+    return this.http.get<Registration[]>(`${this.apiUrl}/${tournamentId}/registrations`);
+  }
 }
