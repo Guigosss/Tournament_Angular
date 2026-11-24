@@ -37,19 +37,6 @@ app-nav {
   --color-app-danger: #f87171;
 }
 
-@utility nav-menu {
-  --p-menu-background: transparent;
-  --p-menu-border-color: transparent;
-  --p-menu-border-radius: 0;
-  --p-menu-shadow: none;
-  --p-menu-list-padding: 0;
-  --p-menu-list-gap: 0.125rem;
-  --p-menu-item-padding: 0;
-  --p-menu-item-focus-background: rgb(255 255 255 / 0.05);
-  --p-menu-submenu-label-padding: 1rem 0.5rem 0.5rem;
-  --p-menu-submenu-label-background: transparent;
-}
-
 /* ---------- Texte ---------- */
 @utility text-title {
   @apply text-3xl font-bold tracking-tight text-app-text;
@@ -59,6 +46,28 @@ app-nav {
 }
 @utility text-hint {
   @apply text-sm text-app-muted;
+}
+
+/* ---------- Pages ---------- */
+@utility page-container {
+  @apply mx-auto w-full max-w-5xl p-6;
+}
+@utility page-container-wide {
+  @apply mx-auto w-full max-w-7xl p-6;
+}
+/* En-tête d'une page : titre à gauche, action à droite, filet en bas */
+@utility page-header {
+  @apply flex flex-col gap-4 border-b border-app-border pb-6 sm:flex-row sm:items-start sm:justify-between;
+}
+/* Pages d'authentification (connexion, inscription) */
+@utility auth-page {
+  @apply relative flex min-h-[calc(100vh-100px)] items-center justify-center overflow-hidden px-4 py-10;
+}
+@utility auth-glow {
+  @apply pointer-events-none absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-app-primary/10 blur-3xl;
+}
+@utility auth-card {
+  @apply relative block w-full max-w-md overflow-hidden shadow-2xl shadow-app-primary/10;
 }
 
 /* ---------- Éléments décoratifs ---------- */
@@ -71,32 +80,8 @@ app-nav {
 @utility surface-tile {
   @apply flex min-w-0 flex-1 flex-col gap-2 rounded-xl bg-app-surface p-4;
 }
-@utility glass-tile {
-  @apply flex items-center gap-3 rounded-2xl bg-app-bg/50 p-4 backdrop-blur;
-}
 @utility empty-box {
   @apply flex flex-col items-center gap-3 rounded-2xl border border-dashed border-app-border bg-app-surface/40 px-6 py-16 text-center;
-}
-@utility header-banner {
-  @apply relative mb-8 overflow-hidden rounded-3xl border border-app-border bg-linear-to-br from-app-primary-dark/40 via-app-card to-app-bg p-8;
-}
-
-/* ---------- Pages ---------- */
-@utility page-container {
-  @apply mx-auto w-full max-w-5xl p-6;
-}
-@utility page-container-wide {
-  @apply mx-auto w-full max-w-7xl p-6;
-}
-/* Pages d'authentification (connexion, inscription) */
-@utility auth-page {
-  @apply relative flex min-h-[calc(100vh-100px)] items-center justify-center overflow-hidden px-4 py-10;
-}
-@utility auth-glow {
-  @apply pointer-events-none absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-app-primary/10 blur-3xl;
-}
-@utility auth-card {
-  @apply relative block w-full max-w-md overflow-hidden shadow-2xl shadow-app-primary/10;
 }
 
 /* ---------- Cartes ---------- */
@@ -128,13 +113,25 @@ app-nav {
 @utility breadcrumb-plain {
   @apply block [--p-breadcrumb-background:transparent] [--p-breadcrumb-padding:0];
 }
+@utility nav-menu {
+  --p-menu-background: transparent;
+  --p-menu-border-color: transparent;
+  --p-menu-border-radius: 0;
+  --p-menu-shadow: none;
+  --p-menu-list-padding: 0;
+  --p-menu-list-gap: 0.125rem;
+  --p-menu-item-padding: 0;
+  --p-menu-item-focus-background: rgb(255 255 255 / 0.05);
+  --p-menu-submenu-label-padding: 1rem 0.5rem 0.5rem;
+  --p-menu-submenu-label-background: transparent;
+}
 
-/* Carte d'un match dans le bracket */
+/* ---------- Bracket ---------- */
+/* Carte d'un match */
 @utility match-box {
   @apply flex w-64 flex-col overflow-hidden rounded-xl border border-app-border bg-app-surface;
 }
 
-/* ---------- Bracket ---------- */
 /* Emplacement d'un match : chaque match est centré dans sa part de hauteur de la colonne */
 @utility bracket-slot {
   @apply relative flex flex-1 items-center py-2;

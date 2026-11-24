@@ -11,8 +11,8 @@ import { TournamentStatus } from '../../../models/tournament.enums';
 import { EmptyState } from '../../../components/shared/empty-state/empty-state';
 import { TournamentCard } from '../../../components/tournament-list/tournament-card/tournament-card';
 import { TournamentFilters } from '../../../components/tournament-list/tournament-filters/tournament-filters';
-import { Stat } from '../../../components/tournament-list/tournament-stat/tournament-stat';
 import { TournamentListHeader } from '../../../components/tournament-list/tournament-list-header/tournament-list-header';
+import { Stat } from '../../../models/stat.model';
 
 @Component({
   selector: 'app-tournament-list',
