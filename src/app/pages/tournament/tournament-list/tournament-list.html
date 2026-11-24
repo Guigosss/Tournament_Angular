@@ -1,49 +1,49 @@
-<div class="mx-auto w-full max-w-5xl p-6">
+<div class="page-container">
 
-  <!-- Header -->
-  <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <app-tournament-list-header [stats]="tournaments() ? stats() : null" />
 
-    <div>
-      <h1 class="text-3xl font-bold text-app-text">List of tournaments</h1>
+  @if (hasError()) {
 
-      <p class="mt-2 text-app-muted">Find available tournaments and view the information.</p>
-    </div>
+    <p-message class="block" severity="error">Unable to load tournaments.</p-message>
 
-    <button
-      pButton
-      type="button"
-      routerLink="/tournaments/new"
-    >
-      <i class="pi pi-plus"></i>
-      <span>Create a tournament</span>
-    </button>
+  } @else if (tournaments(); as list) {
 
-  </div>
+    @if (list.length === 0) {
 
-  <!-- Tournament list -->
-  @if (tournaments$ | async; as tournaments) {
-
-    @if (tournaments.length === 0) {
-
-      <section class="rounded-2xl border border-white/10 bg-[#211A29] p-10 text-center">
-
-        <i class="pi pi-trophy mb-4 text-4xl text-[#a83bd8]"></i>
-
-        <h2 class="mb-2 text-xl font-semibold text-app-text">No tournaments available</h2>
-
-        <p class="text-sm text-app-muted">There is no tournament yet. Why not create the first one?</p>
-
-      </section>
+      <app-empty-state
+        icon="pi pi-trophy"
+        heading="No tournaments available"
+        message="There is no tournament yet. Why not create the first one?"
+      >
+        <button pButton type="button" class="mt-2" routerLink="/tournaments/new">
+          <i class="pi pi-plus"></i>
+          <span>Create a tournament</span>
+        </button>
+      </app-empty-state>
 
     } @else {
 
+      <app-tournament-filters [(search)]="search" [(status)]="statusFilter" />
+
       <div class="flex flex-col gap-5">
-        @for (tournament of tournaments; track tournament.id) {
+        @for (tournament of filteredTournaments(); track tournament.id) {
           <app-tournament-card [tournament]="tournament" />
+        } @empty {
+          <p class="py-10 text-center text-hint">No tournament matches your filters.</p>
         }
       </div>
 
     }
+
+  } @else {
+
+    <!-- Loading -->
+    <div class="flex flex-col gap-5">
+      @for (item of [1, 2, 3]; track item) {
+        <p-skeleton height="9rem" borderRadius="1rem" />
+      }
+    </div>
+
   }
 
 </div>

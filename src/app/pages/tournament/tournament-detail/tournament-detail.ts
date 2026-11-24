@@ -1,22 +1,23 @@
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonDirective } from 'primeng/button';
+import {Component, computed, inject, signal} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Message } from 'primeng/message';
 import { TournamentService } from '../../../services/tournament.service';
 import { TournamentDetail as TournamentDetailModel } from '../../../models/tournament.model';
-import { TournamentOverview } from '../../../components/tournament-overview/tournament-overview';
-import { TournamentParticipants } from '../../../components/tournament-participants/tournament-participants';
-import { TournamentCalendar } from '../../../components/tournament-calendar/tournament-calendar';
+import { TournamentOverview } from '../../../components/tournament-detail/tournament-overview/tournament-overview';
+import { TournamentParticipants } from '../../../components/tournament-detail/tournament-participants/tournament-participants';
+import { TournamentParticipantsList } from '../../../components/tournament-detail/tournament-participants-list/tournament-participants-list';
+import {Breadcrumb} from 'primeng/breadcrumb';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-tournament-detail',
   standalone: true,
-  imports: [ButtonDirective, TournamentOverview, TournamentParticipants, TournamentCalendar],
+  imports: [Message, TournamentOverview, TournamentParticipants, TournamentParticipantsList, Breadcrumb,],
+  host: { class: 'page-container-wide' },
   templateUrl: './tournament-detail.html',
-  styleUrl: './tournament-detail.css',
 })
 export class TournamentDetail {
   private readonly _route = inject(ActivatedRoute);
-  private readonly _router = inject(Router);
   private readonly _tournamentService = inject(TournamentService);
 
   readonly tournament = signal<TournamentDetailModel | null>(null);
@@ -39,11 +40,21 @@ export class TournamentDetail {
     });
   }
 
-  editTournament(): void {
-    const id = this.tournament()?.tournament.id;
+  reloadTournament(): void {
+    const id = Number(this._route.snapshot.paramMap.get('id'));
 
-    if (id) {
-      this._router.navigate(['/tournaments', id, 'edit']);
-    }
+    this._tournamentService.getTournament(id).subscribe({
+      next: (detail) => this.tournament.set(detail),
+      error: (error) => console.error('Unable to reload tournament', error),
+    });
   }
+
+  readonly breadcrumb = computed<MenuItem[]>(() => [
+    { label: 'Tournaments', routerLink: '/tournaments' },
+    { label: this.tournament()?.tournament.name ?? '…' },
+  ]);
+
+  readonly registeredCount = computed(
+    () => this.tournament()?.participants.filter((p) => p.status !== 'EXCLUDED').length ?? 0,
+  );
 }

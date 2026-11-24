@@ -1,46 +1,50 @@
-<div class="mx-auto w-full max-w-5xl p-6">
+<p-breadcrumb class="breadcrumb-plain mb-6" [model]="breadcrumb()" />
 
-  <!-- Header -->
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold text-app-text">Tournament Details</h1>
-    <p class="mt-2 text-app-muted">Review the information and settings for your tournament.</p>
-  </div>
+<!-- Error -->
+@if (errorMessage()) {
+  <p-message class="mb-6 block" severity="error">{{ errorMessage() }}</p-message>
+}
 
-  <!-- Error -->
-  @if (errorMessage()) {
-    <div class="mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-4">
-      <p class="text-sm text-red-400">{{ errorMessage() }}</p>
-    </div>
+@if (tournament(); as detail) {
+
+  <!-- Registration status message -->
+  @if (detail.tournament.status === 'UPCOMING') {
+    <p class="mb-6 text-hint">Registrations are not open yet.</p>
+  } @else if (
+    detail.tournament.status !== 'REGISTRATION_OPEN' &&
+    detail.tournament.status !== 'REGISTRATION_CLOSED'
+    ) {
+    <p class="mb-6 text-hint">Registrations are closed for this tournament.</p>
   }
 
-  @if (tournament(); as detail) {
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-    <!-- General infos -->
-    <app-tournament-overview [tournament]="detail.tournament" />
+    <!-- Left column -->
+    <div class="flex flex-col gap-6 lg:col-span-2">
+      <app-tournament-overview
+        [tournament]="detail.tournament"
+        (registrationCompleted)="reloadTournament()"
+      />
 
-    <!-- Participants -->
-    <app-tournament-participants
-      [participantCount]="detail.participantCount"
-      [maxParticipants]="detail.tournament.maxParticipants"
+      <app-tournament-participants
+        class="flex-1"
+        [tournamentId]="detail.tournament.id"
+        [organizerId]="detail.tournament.organizerId"
+        [status]="detail.tournament.status"
+        [participantCount]="registeredCount()"
+        [maxParticipants]="detail.tournament.maxParticipants"
+        (participantUpdated)="reloadTournament()"
+      />
+    </div>
+
+    <!-- Right column -->
+    <app-tournament-participants-list
+      [tournamentId]="detail.tournament.id"
+      [organizerId]="detail.tournament.organizerId"
+      [participantType]="detail.tournament.participantType"
+      [participants]="detail.participants"
+      (participantUpdated)="reloadTournament()"
     />
 
-    <!-- Calendar -->
-    <app-tournament-calendar [tournament]="detail.tournament" />
-
-    <!-- Actions -->
-    <div class="flex justify-end">
-
-      <button
-        pButton
-        type="button"
-        (click)="editTournament()"
-      >
-        <i class="pi pi-pencil"></i>
-        <span>Modifier le tournoi</span>
-      </button>
-
-    </div>
-
-  }
-
-</div>
+  </div>
+}

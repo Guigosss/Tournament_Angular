@@ -1,0 +1,44 @@
+<p-card class="h-full w-full flex-1 [&_.p-card-body]:flex-1 [&_.p-card-content]:flex-1">
+
+  <ng-template #title>
+    <span class="flex items-center gap-2">
+      <i class="pi pi-chart-bar text-app-primary"></i>
+      Registrations &amp; Progress
+    </span>
+  </ng-template>
+
+  <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <p class="text-5xl font-bold leading-none text-app-text">
+        {{ participantCount() }}
+        <span class="text-2xl font-medium text-app-muted">/ {{ maxParticipants() }}</span>
+      </p>
+      <p class="mt-2 text-sm text-app-muted">participants registered</p>
+    </div>
+
+    <app-tournament-management
+      [tournamentId]="tournamentId()"
+      [organizerId]="organizerId()"
+      [status]="status()"
+      (tournamentUpdated)="participantUpdated.emit()"
+    />
+  </div>
+
+  <div class="mb-2 mt-8 flex items-center justify-between text-sm">
+    <span class="text-app-muted">{{ fillPercent() }}% full</span>
+    <span class="font-medium text-app-primary">{{ spotsLeft() }} spots left</span>
+  </div>
+
+  <p-progressbar
+    [value]="fillPercent()"
+    [showValue]="false"
+    [style]="{ height: '0.75rem' }"
+  />
+
+  @if (participantCount() === 0) {
+    <p class="mt-6 text-center text-sm text-app-muted">
+      Registrations will show up here as players sign up.
+    </p>
+  }
+
+</p-card>

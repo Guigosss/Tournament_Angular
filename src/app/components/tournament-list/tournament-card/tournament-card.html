@@ -1,0 +1,49 @@
+<p-card class="lift-card" [class]="accent()">
+
+  <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+
+    <p-avatar icon="pi pi-trophy" shape="square" size="xlarge" class="icon-badge shrink-0" />
+
+    <!-- Tournament infos -->
+    <div class="min-w-0 flex-1">
+
+      <div class="flex flex-wrap items-center gap-3">
+        <h2 class="min-w-0 truncate text-heading">{{ tournament().name }}</h2>
+        <p-tag [value]="humanize(tournament().status)" [severity]="statusSeverity()" rounded />
+      </div>
+
+      <p class="mt-1 line-clamp-2 text-hint">
+        {{ tournament().description || 'No description available.' }}
+      </p>
+
+      <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-app-soft">
+        <app-meta-item icon="pi pi-sitemap">
+          {{ humanize(tournament().format) }}
+        </app-meta-item>
+
+        <app-meta-item icon="pi pi-users">
+          {{ humanize(tournament().participantType) }} · up to {{ tournament().maxParticipants }}
+        </app-meta-item>
+
+        <app-meta-item icon="pi pi-calendar">
+          {{ tournament().startDate | date:'d MMM y' }} – {{ tournament().endDate | date:'d MMM y' }}
+        </app-meta-item>
+      </div>
+
+    </div>
+
+    <button
+      pButton
+      type="button"
+      class="shrink-0"
+      severity="secondary"
+      [outlined]="true"
+      [routerLink]="['/tournaments', tournament().id]"
+    >
+      <span>View the tournament</span>
+      <i class="pi pi-arrow-right"></i>
+    </button>
+
+  </div>
+
+</p-card>

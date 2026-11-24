@@ -1,89 +1,92 @@
+<div class="auth-page">
 
-<div class=" flex min-h-[calc(100vh-100px)] items-center justify-center px-4 py-10">
+  <div class="auth-glow"></div>
 
-  <div class="bg-gradient-to-br from-[#7020A0] via-[#35134F] to-[#211A29] w-full max-w-md rounded-2xl border border-white/10 bg-app-surface p-8 shadow-xl">
+  <p-card class="auth-card">
 
-    <div class="mb-8 text-center">
-      <h1 class="mb-2 text-3xl font-bold text-app-text">
-        Bienvenue !
-      </h1>
+    <ng-template #header>
+      <div class="accent-bar"></div>
+    </ng-template>
 
-      <p class="text-sm text-gray-400">
-        Connecte-toi à ton compte Tournament App
-      </p>
+    <!-- Title -->
+    <div class="flex flex-col items-center gap-4 text-center">
+      <p-avatar icon="pi pi-trophy" shape="square" size="xlarge" class="icon-badge" />
+
+      <div>
+        <h1 class="text-title">Welcome back!</h1>
+        <p class="mt-2 text-hint">Sign in to your Tournament App account</p>
+      </div>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-8 flex flex-col gap-5">
 
-      <div>
-        <label for="username" class="mb-2 block text-sm font-medium text-app-text">
-          Nom d'utilisateur
-        </label>
+      <app-form-field
+        label="Username"
+        inputId="username"
+        error="Username is required."
+        [control]="loginForm.controls.username"
+      >
+        <p-iconfield>
+          <p-inputicon class="pi pi-user" />
+          <input
+            pInputText
+            id="username"
+            type="text"
+            formControlName="username"
+            autocomplete="username"
+            placeholder="Your username"
+            class="w-full"
+          />
+        </p-iconfield>
+      </app-form-field>
 
-        <input
-          id="username"
-          type="text"
-          formControlName="username"
-          autocomplete="username"
-          placeholder="Ton nom d'utilisateur"
-          class="w-full rounded-lg border border-white/10 bg-app-black px-4 py-3 text-app-text outline-none transition focus:border-primary"
-        />
-
-        @if (loginForm.controls.username.touched && loginForm.controls.username.invalid) {
-          <p class="mt-1 text-sm text-red-400">
-            Le nom d'utilisateur est obligatoire.
-          </p>
-        }
-      </div>
-
-      <div>
-        <label for="password" class="mb-2 block text-sm font-medium text-app-text">
-          Mot de passe
-        </label>
-
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          autocomplete="current-password"
-          placeholder="Ton mot de passe"
-          class="w-full rounded-lg border border-white/10 bg-app-black px-4 py-3 text-app-text outline-none transition focus:border-primary"
-        />
-
-        @if (loginForm.controls.password.touched && loginForm.controls.password.invalid) {
-          <p class="mt-1 text-sm text-red-400">
-            Le mot de passe est obligatoire.
-          </p>
-        }
-      </div>
+      <app-form-field
+        label="Password"
+        inputId="password"
+        error="Password is required."
+        [control]="loginForm.controls.password"
+      >
+        <p-iconfield>
+          <p-inputicon class="pi pi-lock" />
+          <input
+            pInputText
+            id="password"
+            formControlName="password"
+            autocomplete="current-password"
+            placeholder="Your password"
+            class="w-full"
+            [type]="showPassword() ? 'text' : 'password'"
+          />
+          <p-inputicon
+            role="button"
+            class="cursor-pointer"
+            [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            (click)="showPassword.set(!showPassword())"
+          />
+        </p-iconfield>
+      </app-form-field>
 
       @if (errorMessage()) {
-        <div class="rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-400">
-          {{ errorMessage() }}
-        </div>
+        <p-message severity="error">{{ errorMessage() }}</p-message>
       }
 
-      <button
-        type="submit"
-        [disabled]="loading()"
-        class="w-full rounded-lg bg-primary px-4 py-3 font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {{ loading() ? 'Connexion en cours...' : 'Se connecter' }}
+      <button pButton type="submit" class="w-full" [disabled]="loading()">
+        <i class="pi pi-sign-in"></i>
+        <span>{{ loading() ? 'Signing in...' : 'Sign in' }}</span>
       </button>
 
     </form>
 
-    <div class="mt-6 text-center text-sm text-gray-400">
-      Tu n'as pas encore de compte ?
+    <p-divider align="center">
+      <span class="text-xs text-app-muted">Don't have an account yet?</span>
+    </p-divider>
 
-      <a
-        routerLink="/register"
-        class="ml-1 font-semibold text-primary hover:underline"
-      >
-        Inscris-toi
-      </a>
-    </div>
+    <a pButton routerLink="/register" severity="secondary" class="w-full" [outlined]="true">
+      <i class="pi pi-user-plus"></i>
+      <span>Create an account</span>
+    </a>
 
-  </div>
+  </p-card>
+
 </div>
-

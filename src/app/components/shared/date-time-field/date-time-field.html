@@ -1,0 +1,23 @@
+<div [formGroup]="form()">
+  <app-form-field
+    [label]="label()"
+    [inputId]="controlName()"
+    [control]="form().get(controlName())"
+    error="Pick a date."
+  >
+    <p-datepicker
+      placeholder="dd/mm/yyyy hh:mm"
+      dateFormat="dd/mm/yy"
+      hourFormat="24"
+      iconDisplay="input"
+      appendTo="body"
+      [inputId]="controlName()"
+      [formControlName]="controlName()"
+      [showTime]="true"
+      [showIcon]="true"
+      [fluid]="true"
+      [minDate]="minDate()"
+      [invalid]="isInvalid()"
+    />
+  </app-form-field>
+</div>

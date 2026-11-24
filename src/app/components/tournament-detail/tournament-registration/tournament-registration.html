@@ -1,0 +1,18 @@
+@if (errorMessage()) {
+  <p-message severity="error">{{ errorMessage() }}</p-message>
+}
+
+@if (successMessage()) {
+  <p-message severity="success">{{ successMessage() }}</p-message>
+}
+
+@if (participantType() === 'PLAYER') {
+  <button pButton type="button" [disabled]="loading()" (click)="register()">
+    <i class="pi pi-user"></i>
+    <span>{{ loading() ? 'Registering...' : 'Register as a player' }}</span>
+  </button>
+}
+
+@if (participantType() === 'TEAM') {
+  <p class="text-hint">Team registration will be available soon.</p>
+}

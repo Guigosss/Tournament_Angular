@@ -1,7 +1,6 @@
 @import 'tailwindcss';
-@import "tailwindcss-primeui";
-@import "primeicons/primeicons.css";
-
+@import 'tailwindcss-primeui';
+@import 'primeicons/primeicons.css';
 
 app-root,
 app-header,
@@ -13,4 +12,119 @@ app-home {
 
 app-nav {
   height: 100%;
+}
+
+@theme inline {
+  --color-app-bg: #080b14;
+  --color-app-black: #05070e;
+
+  --color-app-surface: var(--p-surface-950);
+  --color-app-card: var(--p-surface-900);
+  --color-app-elevated: var(--p-surface-800);
+
+  --color-app-text: var(--p-surface-50);
+  --color-app-muted: var(--p-surface-400);
+  --color-app-soft: var(--p-surface-300);
+
+  --color-app-primary: var(--p-primary-400);
+  --color-app-primary-dark: var(--p-primary-700);
+  --color-app-secondary: #22d3ee;
+
+  --color-app-border: var(--p-surface-800);
+
+  --color-app-success: #34d399;
+  --color-app-warning: #fbbf24;
+  --color-app-danger: #f87171;
+}
+
+@utility nav-menu {
+  --p-menu-background: transparent;
+  --p-menu-border-color: transparent;
+  --p-menu-border-radius: 0;
+  --p-menu-shadow: none;
+  --p-menu-list-padding: 0;
+  --p-menu-list-gap: 0.125rem;
+  --p-menu-item-padding: 0;
+  --p-menu-item-focus-background: rgb(255 255 255 / 0.05);
+  --p-menu-submenu-label-padding: 1rem 0.5rem 0.5rem;
+  --p-menu-submenu-label-background: transparent;
+}
+
+/* ---------- Texte ---------- */
+@utility text-title {
+  @apply text-3xl font-bold tracking-tight text-app-text;
+}
+@utility text-heading {
+  @apply text-xl font-semibold text-app-text;
+}
+@utility text-hint {
+  @apply text-sm text-app-muted;
+}
+
+/* ---------- Éléments décoratifs ---------- */
+@utility icon-badge {
+  @apply bg-app-primary-dark/20 text-app-primary;
+}
+@utility accent-bar {
+  @apply h-1.5 bg-linear-to-r from-app-primary-dark via-app-primary to-app-secondary;
+}
+@utility surface-tile {
+  @apply flex min-w-0 flex-1 flex-col gap-2 rounded-xl bg-app-surface p-4;
+}
+@utility glass-tile {
+  @apply flex items-center gap-3 rounded-2xl bg-app-bg/50 p-4 backdrop-blur;
+}
+@utility empty-box {
+  @apply flex flex-col items-center gap-3 rounded-2xl border border-dashed border-app-border bg-app-surface/40 px-6 py-16 text-center;
+}
+@utility header-banner {
+  @apply relative mb-8 overflow-hidden rounded-3xl border border-app-border bg-linear-to-br from-app-primary-dark/40 via-app-card to-app-bg p-8;
+}
+
+/* ---------- Pages ---------- */
+@utility page-container {
+  @apply mx-auto w-full max-w-5xl p-6;
+}
+@utility page-container-wide {
+  @apply mx-auto w-full max-w-7xl p-6;
+}
+/* Pages d'authentification (connexion, inscription) */
+@utility auth-page {
+  @apply relative flex min-h-[calc(100vh-100px)] items-center justify-center overflow-hidden px-4 py-10;
+}
+@utility auth-glow {
+  @apply pointer-events-none absolute left-1/2 top-1/2 size-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-app-primary/10 blur-3xl;
+}
+@utility auth-card {
+  @apply relative block w-full max-w-md overflow-hidden shadow-2xl shadow-app-primary/10;
+}
+
+/* ---------- Cartes ---------- */
+@utility lift-card {
+  @apply block overflow-hidden border-l-4 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-app-primary/10;
+}
+@utility fill-card {
+  @apply h-full w-full flex-1 [&_.p-card-body]:flex-1 [&_.p-card-content]:flex-1;
+}
+
+/* ---------- Formulaires ---------- */
+@utility action-bar {
+  @apply sticky bottom-4 z-10 flex flex-col-reverse justify-end gap-3 p-4 backdrop-blur sm:flex-row;
+}
+@utility form-panel {
+  @apply rounded-xl bg-app-surface/60 p-5;
+}
+@utility form-panel-title {
+  @apply mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-app-primary;
+}
+@utility form-grid-2 {
+  @apply grid grid-cols-1 gap-6 md:grid-cols-2;
+}
+@utility form-grid-3 {
+  @apply grid grid-cols-1 gap-6 md:grid-cols-3;
+}
+
+/* ---------- PrimeNG ---------- */
+@utility breadcrumb-plain {
+  @apply block [--p-breadcrumb-background:transparent] [--p-breadcrumb-padding:0];
 }

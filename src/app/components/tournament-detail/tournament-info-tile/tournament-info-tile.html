@@ -1,0 +1,12 @@
+<div class="flex items-center gap-2">
+  <p-avatar
+    [icon]="icon()"
+    shape="square"
+    class="shrink-0 bg-app-primary-dark/20 text-app-primary"
+  />
+  <p class="truncate text-xs uppercase tracking-wide text-app-muted">{{ label() }}</p>
+</div>
+
+<p class="font-semibold leading-tight text-app-text">
+  <ng-content />
+</p>

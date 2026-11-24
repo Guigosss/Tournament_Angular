@@ -5,85 +5,67 @@ export const TournamentPreset = definePreset(Aura, {
 
   semantic: {
 
-    // Primary palette
     primary: {
-      50: '#f9edff',
-      100: '#f0d5ff',
-      200: '#e3b0ff',
-      300: '#d58aff',
-      400: '#c45cf5',
-      500: '#a83bd8',
-      600: '#8d28b9',
-      700: '#7020a0',
-      800: '#571a7c',
-      900: '#40135c',
-      950: '#270a39',
-
-      color: '#a83bd8',
-      contrastColor: '#ffffff',
-      hoverColor: '#8d28b9',
-      activeColor: '#7020a0'
+      50: '#EEF2FF',
+      100: '#E0E7FF',
+      200: '#C7D2FE',
+      300: '#A5B4FC',
+      400: '#818CF8',
+      500: '#6366F1',
+      600: '#4F46E5',
+      700: '#4338CA',
+      800: '#3730A3',
+      900: '#312E81',
+      950: '#1E1B4B',
     },
 
-    // Dark mode
     colorScheme: {
       dark: {
         primary: {
-          color: '#c45cf5',
-          contrastColor: '#ffffff',
-          hoverColor: '#d58aff',
-          activeColor: '#a83bd8'
+          color: '{primary.500}',
+          contrastColor: '#FFFFFF',
+          hoverColor: '{primary.400}',
+          activeColor: '{primary.300}',
         },
 
         surface: {
-          0: '#ffffff',
-          50: '#f5eff9',
-          100: '#e9dff0',
-          200: '#cdbbd9',
-          300: '#a995b8',
-          400: '#887398',
-          500: '#6d587d',
-          600: '#51415f',
-          700: '#392d45',
-          800: '#2b2135',
-          900: '#211a29',
-          950: '#17131D'
+          0: '#FFFFFF',
+          50: '#F4F6FB',
+          100: '#E6EAF3',
+          200: '#CBD2E3',
+          300: '#A6B0C8',
+          400: '#8590AB',
+          500: '#66718C',
+          600: '#4A5470',
+          700: '#323B54',
+          800: '#212940',
+          900: '#151B2E',
+          950: '#0C101D',
         },
-
-        highlight: {
-          background: '#7020A0',
-          focusBackground: '#8d28b9',
-          color: '#ffffff',
-          focusColor: '#ffffff'
-        }
-      }
+      },
     },
 
-    // Global focus
     focusRing: {
       width: '2px',
       style: 'solid',
-      color: '#c45cf5',
-      offset: '2px'
-    }
+      color: '{primary.400}',
+      offset: '2px',
+    },
   },
 
-  // PrimeNG components
+  //- PrimeNG components
   components: {
     card: {
+      body: {
+        padding: '1.5rem',
+        gap: '0.5rem',
+      },
       colorScheme: {
         dark: {
-          root: {
-            background: '#211A29',
-            color: '#F5F0F7'
-          },
-          body: {
-            padding: '1.5rem',
-            gap: '0.5rem'
-          }
-        }
-      }
-    }
-  }
+          root: { color: '{surface.100}' },
+        },
+      },
+    },
+  },
 
 });

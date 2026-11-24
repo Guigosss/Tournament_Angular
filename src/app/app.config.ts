@@ -9,7 +9,7 @@ import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
 
 import { routes } from './app.routes';
-import { authInterceptor } from './services/auth-interceptor';
+import { authInterceptor } from './interceptors/auth-interceptor';
 import { TournamentPreset } from './theme.preset';
 
 export const appConfig: ApplicationConfig = {

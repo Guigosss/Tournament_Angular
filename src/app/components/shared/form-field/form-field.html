@@ -1,0 +1,17 @@
+<label [attr.for]="inputId()" class="text-sm font-medium text-app-soft">{{ label() }}</label>
+
+<ng-content />
+
+@if (hasError() || hint()) {
+  <div class="flex items-start justify-between gap-2">
+    @if (hasError()) {
+      <p-message severity="error" size="small" variant="simple">{{ error() }}</p-message>
+    } @else {
+      <span></span>
+    }
+
+    @if (hint()) {
+      <span class="text-xs text-app-muted">{{ hint() }}</span>
+    }
+  </div>
+}

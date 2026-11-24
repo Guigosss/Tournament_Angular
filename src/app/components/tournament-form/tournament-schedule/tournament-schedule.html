@@ -1,0 +1,57 @@
+<app-form-section
+  icon="pi pi-calendar"
+  heading="Tournament schedule"
+  subheading="Define the registration periods and the tournament dates."
+>
+
+  <!-- Registrations -->
+  <div class="form-panel">
+
+    <h3 class="form-panel-title">
+      <i class="pi pi-user-plus"></i>
+      Registration period
+    </h3>
+
+    <div class="form-grid-2">
+      <app-date-time-field
+        label="Registration opens"
+        controlName="registrationStartDate"
+        [form]="form()"
+      />
+
+      <app-date-time-field
+        label="Registration closes"
+        controlName="registrationEndDate"
+        [form]="form()"
+        [minDate]="form().get('registrationStartDate')?.value"
+      />
+    </div>
+
+  </div>
+
+  <!-- Progression -->
+  <div class="form-panel">
+
+    <h3 class="form-panel-title">
+      <i class="pi pi-flag"></i>
+      Tournament progression
+    </h3>
+
+    <div class="form-grid-2">
+      <app-date-time-field
+        label="Start of the tournament"
+        controlName="startDate"
+        [form]="form()"
+      />
+
+      <app-date-time-field
+        label="End of the tournament"
+        controlName="endDate"
+        [form]="form()"
+        [minDate]="form().get('startDate')?.value"
+      />
+    </div>
+
+  </div>
+
+</app-form-section>

@@ -1,0 +1,34 @@
+@if (isOrganizer()) {
+  <div class="flex flex-wrap items-center gap-2">
+
+    @if (status() === 'UPCOMING' || status() === 'REGISTRATION_CLOSED') {
+      <button pButton type="button" [disabled]="loading()" (click)="openRegistrations()">
+        <i class="pi pi-lock-open"></i>
+        <span>Open registrations</span>
+      </button>
+    }
+
+    @if (status() === 'REGISTRATION_OPEN') {
+      <button pButton type="button" [disabled]="loading()" (click)="closeRegistrations()">
+        <i class="pi pi-lock"></i>
+        <span>Close registrations</span>
+      </button>
+    }
+
+    @if (status() === 'REGISTRATION_CLOSED') {
+      <button pButton type="button" [disabled]="loading()" (click)="generateTournament()">
+        <i class="pi pi-sitemap"></i>
+        <span>Generate tournament</span>
+      </button>
+    }
+
+  </div>
+}
+
+@if (errorMessage()) {
+  <p class="mt-2 text-sm text-app-danger">{{ errorMessage() }}</p>
+}
+
+@if (successMessage()) {
+  <p class="mt-2 text-sm text-app-success">{{ successMessage() }}</p>
+}

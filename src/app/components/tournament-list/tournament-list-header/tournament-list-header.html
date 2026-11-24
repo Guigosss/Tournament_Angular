@@ -1,0 +1,29 @@
+<section class="header-banner">
+
+  <i class="pi pi-trophy pointer-events-none absolute -right-4 -top-4 text-[10rem] text-app-primary/10"></i>
+
+  <div class="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+
+    <div>
+      <h1 class="text-title sm:text-4xl">Tournaments</h1>
+      <p class="mt-2 max-w-md text-app-soft">
+        Find available tournaments and view the information.
+      </p>
+    </div>
+
+    <button pButton type="button" routerLink="/tournaments/new">
+      <i class="pi pi-plus"></i>
+      <span>Create a tournament</span>
+    </button>
+
+  </div>
+
+  @if (stats(); as items) {
+    <div class="relative mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      @for (stat of items; track stat.label) {
+        <app-tournament-stat [icon]="stat.icon" [value]="stat.value" [label]="stat.label" />
+      }
+    </div>
+  }
+
+</section>

@@ -1,0 +1,116 @@
+<p-card class="fill-card">
+
+  <ng-template #title>
+    <span class="flex items-center gap-2">
+      Registered participants
+      <p-badge [value]="participants().length" severity="secondary" />
+    </span>
+  </ng-template>
+
+  @if (errorMessage()) {
+    <p-message class="mb-4 block" severity="error">{{ errorMessage() }}</p-message>
+  }
+
+  <p-iconfield class="mb-4 mt-2 block">
+    <p-inputicon class="pi pi-search" />
+    <input
+      pInputText
+      type="text"
+      class="w-full"
+      placeholder="Search..."
+      [value]="search()"
+      (input)="onSearch($event)"
+    />
+  </p-iconfield>
+
+  @if (participants().length === 0) {
+
+    <app-empty-state
+      icon="pi pi-users"
+      heading="No participants yet."
+      message="When users register, they will appear here."
+    />
+
+  } @else {
+
+    <p-scrollarea class="h-128" [mask]="true">
+
+      <p-scrollarea-viewport>
+        <p-scrollarea-content class="flex flex-col gap-1 pr-3">
+
+          @for (participant of filteredParticipants(); track participant.id) {
+            <div class="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-app-surface">
+
+              <p-avatar
+                [label]="initials(participant)"
+                shape="circle"
+                size="large"
+                class="icon-badge shrink-0 font-semibold"
+              />
+
+              <div class="min-w-0 flex-1">
+                <p class="truncate font-medium text-app-text">
+                  {{ participant.username || participant.teamName || 'Unknown participant' }}
+                </p>
+
+                @if (participant.registerDate) {
+                  <p class="text-xs text-app-muted">Registered on {{ participant.registerDate | date:'dd/MM/yyyy' }}</p>
+                }
+              </div>
+
+              @if (participant.status) {
+                <p-tag [value]="statusLabel(participant.status)" [severity]="statusSeverity(participant.status)" />
+              }
+
+              @if (isOrganizer() && participant.status !== 'EXCLUDED') {
+                <div class="flex gap-1">
+                  @if (participant.status === 'PENDING') {
+                    <button
+                      pButton
+                      type="button"
+                      severity="success"
+                      size="small"
+                      aria-label="Validate"
+                      [iconOnly]="true"
+                      [text]="true"
+                      [rounded]="true"
+                      [disabled]="loadingParticipantId() !== null"
+                      (click)="validate(participant)"
+                    >
+                      <i class="pi pi-check"></i>
+                    </button>
+                  }
+
+                  <button
+                    pButton
+                    type="button"
+                    severity="danger"
+                    size="small"
+                    aria-label="Exclude"
+                    [iconOnly]="true"
+                    [text]="true"
+                    [rounded]="true"
+                    [disabled]="loadingParticipantId() !== null"
+                    (click)="exclude(participant)"
+                  >
+                    <i class="pi pi-times"></i>
+                  </button>
+                </div>
+              }
+
+            </div>
+          } @empty {
+            <p class="py-4 text-center text-hint">No participant matches your search.</p>
+          }
+
+        </p-scrollarea-content>
+      </p-scrollarea-viewport>
+
+      <p-scrollarea-scrollbar orientation="vertical">
+        <p-scrollarea-handle />
+      </p-scrollarea-scrollbar>
+
+    </p-scrollarea>
+
+  }
+</p-card>

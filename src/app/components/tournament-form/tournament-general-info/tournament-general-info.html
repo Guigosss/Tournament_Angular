@@ -1,0 +1,86 @@
+<app-form-section
+  [formGroup]="form()"
+  icon="pi pi-info-circle"
+  heading="General information"
+  subheading="Define the name, description, and rules for your tournament."
+>
+
+  <app-form-field
+    label="Tournament name"
+    inputId="name"
+    error="A name is required."
+    [control]="form().get('name')"
+  >
+    <input
+      pInputText
+      id="name"
+      formControlName="name"
+      placeholder="Ex. : Tournament Summer 2026"
+      class="w-full"
+    />
+  </app-form-field>
+
+  <app-form-field
+    label="Description"
+    inputId="description"
+    error="The description must not exceed 500 characters."
+    [control]="form().get('description')"
+    [hint]="(form().get('description')?.value?.length ?? 0) + ' / 500'"
+  >
+    <textarea
+      pTextarea
+      id="description"
+      formControlName="description"
+      rows="4"
+      placeholder="Introduce your tournament..."
+      class="w-full"
+      [autoResize]="true"
+    ></textarea>
+  </app-form-field>
+
+  <div class="form-grid-3">
+
+    <app-form-field
+      label="Max participants"
+      inputId="maxParticipants"
+      error="At least 2 participants."
+      [control]="form().get('maxParticipants')"
+    >
+      <p-inputnumber
+        inputId="maxParticipants"
+        formControlName="maxParticipants"
+        placeholder="Ex : 16"
+        [min]="2"
+        [showButtons]="true"
+        [fluid]="true"
+        [invalid]="isInvalid('maxParticipants')"
+      />
+    </app-form-field>
+
+    <app-form-field label="Tournament format" inputId="format">
+      <p-select
+        inputId="format"
+        formControlName="format"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a format"
+        [options]="formats()"
+        [fluid]="true"
+      />
+    </app-form-field>
+
+    <app-form-field label="Type of participants" inputId="participantType">
+      <p-select
+        inputId="participantType"
+        formControlName="participantType"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a type"
+        [options]="participantTypes()"
+        [fluid]="true"
+      />
+    </app-form-field>
+
+  </div>
+
+</app-form-section>

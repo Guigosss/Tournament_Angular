@@ -1,0 +1,9 @@
+<p-avatar [icon]="icon()" shape="circle" size="xlarge" class="icon-badge" />
+
+<h2 class="text-heading">{{ heading() }}</h2>
+
+@if (message()) {
+  <p class="max-w-sm text-hint">{{ message() }}</p>
+}
+
+<ng-content />

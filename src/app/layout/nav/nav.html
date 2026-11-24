@@ -1,33 +1,40 @@
+<div class="flex h-full min-h-100 flex-col px-3 py-6">
 
-<div class="flex h-full min-h-[400px] flex-col px-4 py-6 text-app-soft">
+  <p-menu [model]="items()" class="nav-menu block w-full">
 
-  @for (section of sections(); track section.title; let last = $last) {
-    <p class="mt-4 mb-3 ml-2 text-[0.7rem] font-bold tracking-[1.5px] text-app-muted">
-      {{ section.title }}
-    </p>
+    <ng-template let-item>
+      <span class="px-2 text-[0.7rem] font-bold tracking-[1.5px] text-app-muted">
+        {{ item.label }}
+      </span>
+    </ng-template>
 
-    @for (link of section.links; track link.path) {
+    <ng-template #item let-item>
       <a
-        [routerLink]="link.path"
-        routerLinkActive="bg-linear-to-r from-app-primary to-app-secondary font-semibold text-white shadow-lg shadow-app-primary/20"
-        class="mb-1 flex items-center gap-3 rounded-lg px-4 py-3.5 text-[0.9rem] no-underline transition hover:bg-app-primary/15 hover:text-app-text">
-
-        <span class="w-5 text-center">{{ link.icon }}</span>
-        {{ link.label }}
-
+        [routerLink]="item.routerLink"
+        routerLinkActive="active"
+        class="p-menu-item-link group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-app-soft no-underline transition before:absolute before:bottom-2 before:left-0 before:top-2 before:w-0.5 before:rounded-full before:bg-app-primary before:opacity-0 hover:bg-white/5 hover:text-app-text [&.active]:bg-app-primary-dark/25 [&.active]:font-semibold [&.active]:text-app-text [&.active]:before:opacity-100"
+      >
+        <i
+          class="text-base text-app-muted transition group-hover:text-app-primary group-[.active]:text-app-primary"
+          [class]="item.icon"
+        ></i>
+        <span>{{ item.label }}</span>
       </a>
-    }
+    </ng-template>
 
-    @if (!last) {
-      <p-divider />
-    }
-  }
+  </p-menu>
 
-  <div class="mt-auto px-2 pt-4">
-    <div class="text-xs font-bold tracking-wider text-app-text">
-      TOURNAMENT APP
+  <div class="mt-auto flex items-center gap-3 border-t border-app-border px-2 pt-4">
+    <p-avatar
+      icon="pi pi-trophy"
+      shape="square"
+      class="shrink-0 bg-app-primary-dark/30 text-app-primary"
+    />
+
+    <div>
+      <p class="text-xs font-bold tracking-wider text-app-text">TOURNAMENT APP</p>
+      <p class="text-[0.7rem] text-app-muted">Version 1.0.0</p>
     </div>
-    <span class="text-[0.7rem] text-app-muted">Version 1.0.0</span>
   </div>
 
 </div>

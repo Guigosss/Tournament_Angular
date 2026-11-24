@@ -2,17 +2,19 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { ButtonDirective } from 'primeng/button';
+import { Message } from 'primeng/message';
 import { TournamentService } from '../../../services/tournament.service';
 import { TournamentFormat, ParticipantType } from '../../../models/tournament.enums';
 import { PARTICIPANT_TYPES, TOURNAMENT_FORMATS } from '../../../models/tournament-options';
-import { TournamentSchedule } from '../../../components/tournament-schedule/tournament-schedule';
-import { TournamentGeneralInfo } from '../../../components/tournament-general-info/tournament-general-info';
+import { TournamentSchedule } from '../../../components/tournament-form/tournament-schedule/tournament-schedule';
+import { TournamentGeneralInfo } from '../../../components/tournament-form/tournament-general-info/tournament-general-info';
+import { toLocalDateTime } from '../../../utils/date-time';
 
 @Component({
   selector: 'app-tournament-form',
-  imports: [ReactiveFormsModule, RouterLink, ButtonDirective, TournamentGeneralInfo, TournamentSchedule],
+  imports: [ReactiveFormsModule, RouterLink, ButtonDirective, Message, TournamentGeneralInfo, TournamentSchedule],
+  host: { class: 'mx-auto w-full max-w-5xl p-6' },
   templateUrl: './tournament-form.html',
-  styleUrl: './tournament-form.css',
 })
 export class TournamentForm {
 
@@ -22,8 +24,10 @@ export class TournamentForm {
   private readonly _tournamentService: TournamentService = inject(TournamentService);
 
   readonly errorMessage = signal<string | null>(null);
+  readonly saving = signal(false);
 
   readonly tournamentId: number | null;
+  readonly isEdit: boolean;
 
   form: FormGroup = this._fb.group({
     name: ['', Validators.required],
@@ -31,10 +35,10 @@ export class TournamentForm {
     maxParticipants: [8, [Validators.required, Validators.min(2)]],
     format: ['SINGLE_ELIMINATION' as TournamentFormat, Validators.required],
     participantType: ['PLAYER' as ParticipantType, Validators.required],
-    startDate: ['', Validators.required],
-    endDate: ['', Validators.required],
-    registrationStartDate: ['', Validators.required],
-    registrationEndDate: ['', Validators.required],
+    startDate: [null as Date | null, Validators.required],
+    endDate: [null as Date | null, Validators.required],
+    registrationStartDate: [null as Date | null, Validators.required],
+    registrationEndDate: [null as Date | null, Validators.required],
   });
 
   readonly formats = TOURNAMENT_FORMATS;
@@ -43,6 +47,7 @@ export class TournamentForm {
   constructor() {
     const id = Number(this._route.snapshot.paramMap.get('id'));
     this.tournamentId = id ? id : null;
+    this.isEdit = this.tournamentId !== null;
   }
 
   submit(): void {
@@ -52,15 +57,26 @@ export class TournamentForm {
       return;
     }
 
-    const request = this.form.value;
+    const value = this.form.getRawValue();
+
+    const request = {
+      ...value,
+      startDate: toLocalDateTime(value.startDate),
+      endDate: toLocalDateTime(value.endDate),
+      registrationStartDate: toLocalDateTime(value.registrationStartDate),
+      registrationEndDate: toLocalDateTime(value.registrationEndDate),
+    };
 
     const call = this.tournamentId === null
       ? this._tournamentService.createTournament(request)
       : this._tournamentService.updateTournament(this.tournamentId, request);
 
+    this.saving.set(true);
+
     call.subscribe({
       next: (tournament) => {
         this.errorMessage.set(null);
+        this.saving.set(false);
 
         if (this.tournamentId === null) {
           this._router.navigate(['/tournaments', tournament.id]);
@@ -71,6 +87,7 @@ export class TournamentForm {
       error: (error) => {
         console.error('Failed to save tournament', error);
         this.errorMessage.set('Unable to save the tournament.');
+        this.saving.set(false);
       },
     });
   }
