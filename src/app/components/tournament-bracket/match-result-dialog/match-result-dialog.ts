@@ -7,7 +7,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { Message } from 'primeng/message';
 import { BracketParticipant, TournamentMatch } from '../../../models/bracket.model';
 import { MatchService } from '../../../services/match.service';
-import {FormField} from '../../shared/form-field/form-field';
+import { FormField } from '../../shared/form-field/form-field';
 
 @Component({
   selector: 'app-match-result-dialog',

@@ -34,19 +34,22 @@
   @if (filteredRegistrations().length === 0) {
     <app-empty-state icon="pi pi-users" heading="No participants" message="Nothing to show for this filter." />
   } @else {
-    <p-scrollarea>
+    <p-scrollarea class="block h-128">
       <p-scrollarea-viewport>
         <p-scrollarea-content>
           @for (registration of filteredRegistrations(); track registration.id) {
-            <div class="flex items-center gap-3 p-3 hover:bg-app-surface">
-              <p-avatar [label]="initials(registration)" shape="circle" />
+            <div class="flex items-center gap-3 px-2 py-3 hover:bg-app-surface">
+              <p-avatar [label]="initials(registration)" shape="circle" class="shrink-0" />
 
-              <div class="flex min-w-0 flex-1 flex-col">
-                <span class="truncate">{{ registration.username || registration.teamName }}</span>
-                <span class="text-hint">Registered on {{ registration.registerDate | date: 'dd/MM/yyyy' }}</span>
+              <div class="flex min-w-0 flex-1 flex-col gap-1">
+                <span class="wrap-break-word">{{ registration.username || registration.teamName }}</span>
+                <div class="flex flex-wrap items-center gap-2">
+                  <p-tag [value]="statusLabels[registration.status]" [severity]="statusSeverities[registration.status]" />
+                  <span class="text-hint" title="Registration date">
+                    {{ registration.registerDate | date: 'dd/MM/yyyy' }}
+                  </span>
+                </div>
               </div>
-
-              <p-tag [value]="statusLabels[registration.status]" [severity]="statusSeverities[registration.status]" />
 
               @if (isOrganizer()) {
                 @if (registration.status === 'PENDING') {
@@ -82,7 +85,7 @@
           }
         </p-scrollarea-content>
       </p-scrollarea-viewport>
-      <p-scrollarea-scrollbar>
+      <p-scrollarea-scrollbar orientation="vertical">
         <p-scrollarea-handle />
       </p-scrollarea-scrollbar>
     </p-scrollarea>
