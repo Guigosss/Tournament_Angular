@@ -1,4 +1,4 @@
-import { TournamentFormat, ParticipantType, RoundType } from './tournament.enums';
+import { TournamentFormat, ParticipantType, RoundType, TournamentStatus } from './tournament.enums';
 
 export const TOURNAMENT_FORMATS = [
   { label: 'Single elimination', value: 'SINGLE_ELIMINATION' as TournamentFormat },
@@ -19,4 +19,13 @@ export const ROUND_LABELS: Record<RoundType, string> = {
   QUARTER_FINAL: 'Quarter final',
   SEMI_FINAL: 'Semi final',
   FINAL: 'Final',
+};
+
+export const TOURNAMENT_STATUS_LABELS: Record<TournamentStatus, string> = {
+  UPCOMING: 'Upcoming',
+  REGISTRATION_OPEN: 'Registration open',
+  REGISTRATION_CLOSED: 'Registration closed',
+  IN_PROGRESS: 'In progress',
+  FINISHED: 'Finished',
+  CANCELED: 'Canceled',
 };

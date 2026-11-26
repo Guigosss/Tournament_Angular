@@ -1,221 +1,139 @@
+<div class="auth-page">
 
-<div class="min-h-screen flex items-center justify-center bg-[#17111e] px-4 py-10">
+  <div class="auth-glow"></div>
 
-  <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
+  <p-card class="auth-card">
 
-    <!-- Partie présentation -->
-    <div class="hidden lg:flex flex-col justify-between p-10
-      bg-gradient-to-br from-[#7020A0] via-[#35134F] to-[#211A29]">
+    <ng-template #header>
+      <div class="accent-bar"></div>
+    </ng-template>
+
+    <!-- Title -->
+    <div class="flex flex-col items-center gap-4 text-center">
+      <p-avatar icon="pi pi-trophy" shape="square" size="xlarge" class="icon-badge" />
 
       <div>
-        <div class="flex items-center gap-3 mb-16">
-          <div class="flex items-center justify-center size-12 rounded-xl bg-white/15">
-            <i class="pi pi-trophy text-2xl text-white"></i>
-          </div>
-
-          <span class="text-xl font-bold text-white">
-            Tournament App
-          </span>
-        </div>
-
-        <span class="text-xs font-bold tracking-[0.25em] text-purple-200">
-          YOUR COMPETITIVE HUB
-        </span>
-
-        <h1 class="mt-5 text-4xl xl:text-5xl font-bold leading-tight text-white">
-          Rejoins la compétition.
-        </h1>
-
-        <p class="mt-6 text-white/75 leading-relaxed">
-          Crée ton compte, organise tes équipes et participe
-          à des tournois. Toute la compétition au même endroit.
-        </p>
+        <h1 class="text-title">Create an account</h1>
+        <p class="mt-2 text-hint">Join the competition on Tournament App</p>
       </div>
-
-      <div class="space-y-5">
-        <div class="flex items-center gap-4">
-          <i class="pi pi-users text-2xl text-purple-200"></i>
-          <span class="text-white/90">Retrouve tes équipes</span>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <i class="pi pi-calendar text-2xl text-purple-200"></i>
-          <span class="text-white/90">Organise tes tournois</span>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <i class="pi pi-chart-line text-2xl text-purple-200"></i>
-          <span class="text-white/90">Suis tes performances</span>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Formulaire -->
-    <div class="bg-[#211A29] p-6 sm:p-10 lg:p-12">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-8 flex flex-col gap-5">
 
-      <div class="mb-8">
-        <div class="lg:hidden flex items-center gap-3 mb-8">
-          <i class="pi pi-trophy text-3xl text-[#c45cf5]"></i>
-          <span class="text-xl font-bold text-white">
-            Tournament App
-          </span>
-        </div>
-
-        <span class="text-sm font-semibold text-[#c45cf5]">
-          CRÉATION DE COMPTE
-        </span>
-
-        <h2 class="mt-2 text-3xl font-bold text-white">
-          Inscription
-        </h2>
-
-        <p class="mt-3 text-sm text-[#a995b8]">
-          Crée ton compte pour rejoindre la compétition.
-        </p>
-      </div>
-
-      @if (errorMessage()) {
-        <div class="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
-          <i class="pi pi-exclamation-circle mr-2"></i>
-          {{ errorMessage() }}
-        </div>
-      }
-
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
-
-        <!-- Username -->
-        <div class="flex flex-col gap-2">
-          <label for="username" class="text-sm font-medium text-white">
-            Nom d'utilisateur
-          </label>
-
+      <app-form-field
+        label="Username"
+        inputId="username"
+        error="Username is required (50 characters max)."
+        [control]="registerForm.controls.username"
+      >
+        <p-iconfield>
+          <p-inputicon class="pi pi-user" />
           <input
-            id="username"
             pInputText
+            id="username"
+            type="text"
             formControlName="username"
-            placeholder="Ton pseudo"
+            autocomplete="username"
+            placeholder="Your username"
             maxlength="50"
             class="w-full"
-            autocomplete="username"
           />
+        </p-iconfield>
+      </app-form-field>
 
-          @if (registerForm.controls.username.touched &&
-          registerForm.controls.username.invalid) {
-            <small class="text-red-400">
-              Le nom d'utilisateur doit contenir au moins 3 caractères.
-            </small>
-          }
-        </div>
-
-        <!-- Email -->
-        <div class="flex flex-col gap-2">
-          <label for="email" class="text-sm font-medium text-white">
-            Adresse email
-          </label>
-
+      <app-form-field
+        label="Email"
+        inputId="email"
+        error="Please enter a valid email address."
+        [control]="registerForm.controls.email"
+      >
+        <p-iconfield>
+          <p-inputicon class="pi pi-envelope" />
           <input
-            id="email"
             pInputText
+            id="email"
             type="email"
             formControlName="email"
-            maxlength="254"
-            placeholder="exemple@email.com"
-            class="w-full"
             autocomplete="email"
+            placeholder="you@example.com"
+            maxlength="254"
+            class="w-full"
           />
+        </p-iconfield>
+      </app-form-field>
 
-          @if (registerForm.controls.email.touched &&
-          registerForm.controls.email.invalid) {
-            <small class="text-red-400">
-              Saisis une adresse email valide.
-            </small>
-          }
-        </div>
-
-        <!-- Password -->
-        <div class="flex flex-col gap-2">
-          <label for="password" class="text-sm font-medium text-white">
-            Mot de passe
-          </label>
-
-          <p-password
-            inputId="password"
+      <app-form-field
+        label="Password"
+        inputId="password"
+        error="Password must be between 8 and 72 bytes."
+        hint="At least 8 characters"
+        [control]="registerForm.controls.password"
+      >
+        <p-iconfield>
+          <p-inputicon class="pi pi-lock" />
+          <input
+            pInputText
+            id="password"
             formControlName="password"
-            placeholder="Minimum 8 caractères"
-            [toggleMask]="true"
-            [feedback]="true"
             autocomplete="new-password"
-            styleClass="w-full"
-            inputStyleClass="w-full"
+            placeholder="Your password"
+            class="w-full"
+            [type]="showPassword() ? 'text' : 'password'"
           />
+          <p-inputicon
+            role="button"
+            class="cursor-pointer"
+            [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            (click)="showPassword.set(!showPassword())"
+          />
+        </p-iconfield>
+      </app-form-field>
 
-          @if (registerForm.controls.password.hasError('maxUtf8Bytes')) {
-            <small class="text-red-400">
-              Le mot de passe ne peut pas dépasser 72 octets UTF-8.
-            </small>
-          }
-          @if (registerForm.controls.password.touched &&
-          registerForm.controls.password.invalid) {
-            <small class="text-red-400">
-              Le mot de passe doit contenir au moins 8 caractères.
-            </small>
-          }
-        </div>
-
-        <!-- Confirm password -->
-        <div class="flex flex-col gap-2">
-          <label for="confirmPassword" class="text-sm font-medium text-white">
-            Confirmer le mot de passe
-          </label>
-
-          <p-password
-            inputId="confirmPassword"
+      <app-form-field
+        label="Confirm password"
+        inputId="confirmPassword"
+        error="Please confirm your password."
+        [control]="registerForm.controls.confirmPassword"
+      >
+        <p-iconfield>
+          <p-inputicon class="pi pi-lock" />
+          <input
+            pInputText
+            id="confirmPassword"
             formControlName="confirmPassword"
-            placeholder="Confirme ton mot de passe"
-            [toggleMask]="true"
-            [feedback]="false"
             autocomplete="new-password"
-            styleClass="w-full"
-            inputStyleClass="w-full"
+            placeholder="Repeat your password"
+            class="w-full"
+            [type]="showPassword() ? 'text' : 'password'"
           />
+        </p-iconfield>
 
-          @if (
-            registerForm.controls.confirmPassword.touched &&
-            registerForm.hasError('passwordMismatch')
-            ) {
-            <small class="text-red-400">
-              Les mots de passe ne correspondent pas.
-            </small>
-          }
-        </div>
+        @if (showMismatch()) {
+          <p-message severity="error" size="small" variant="simple">Passwords do not match.</p-message>
+        }
+      </app-form-field>
 
-        <!-- Submit -->
-        <p-button
-          type="submit"
-          label="Créer mon compte"
-          icon="pi pi-user-plus"
-          iconPos="right"
-          [loading]="loading()"
-          [disabled]="loading()"
-          styleClass="w-full"
-        />
+      @if (errorMessage()) {
+        <p-message severity="error">{{ errorMessage() }}</p-message>
+      }
 
-      </form>
+      <button pButton type="submit" class="w-full" [disabled]="loading()">
+        <i class="pi pi-user-plus"></i>
+        <span>{{ loading() ? 'Creating account...' : 'Create account' }}</span>
+      </button>
 
-      <div class="mt-8 border-t border-white/10 pt-6 text-center">
-        <p class="text-sm text-[#a995b8]">
-          Tu as déjà un compte ?
+    </form>
 
-          <a
-            routerLink="/login"
-            class="ml-1 font-semibold text-[#c45cf5] hover:text-[#d58aff] transition-colors"
-          >
-            Se connecter
-          </a>
-        </p>
-      </div>
+    <p-divider align="center">
+      <span class="text-xs text-app-muted">Already have an account?</span>
+    </p-divider>
 
-    </div>
-  </div>
+    <a pButton routerLink="/login" severity="secondary" class="w-full" [outlined]="true">
+      <i class="pi pi-sign-in"></i>
+      <span>Sign in</span>
+    </a>
+
+  </p-card>
+
 </div>

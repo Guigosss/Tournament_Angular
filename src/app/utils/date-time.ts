@@ -1,6 +1,6 @@
 const pad = (n: number): string => String(n).padStart(2, '0');
 
-// Date -> "2026-11-25T14:00" (heure locale, comme l'ancien datetime-local)
+//- Date -> "2026-11-25T14:00" (local time, like the old datetime local)
 export function toLocalDateTime(value: Date | string | null): string | null {
   if (!value) {
     return null;
@@ -14,7 +14,7 @@ export function toLocalDateTime(value: Date | string | null): string | null {
   );
 }
 
-// "2026-11-25T14:00" -> Date (pour pré-remplir le formulaire en édition)
+//- "2026-11-25T14:00" -> Date (to prefill the form in edit mode)
 export function fromLocalDateTime(value: string | null): Date | null {
   return value ? new Date(value) : null;
 }

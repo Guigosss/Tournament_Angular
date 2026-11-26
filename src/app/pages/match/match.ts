@@ -19,7 +19,7 @@ type MatchFilter = 'all' | MatchKind;
   selector: 'app-match',
   imports: [DatePipe, RouterLink, ButtonDirective, MessageModule, TableModule, TagModule],
   templateUrl: './match.html',
-  host: { class: 'mx-auto flex max-w-5xl flex-col gap-6' },
+  host: { class: 'mx-auto flex w-full max-w-5xl flex-col gap-8 p-6' },
 })
 export class Match {
   private readonly _matchService = inject(MatchService);

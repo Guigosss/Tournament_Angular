@@ -1,5 +1,4 @@
 import { Component, computed, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Avatar } from 'primeng/avatar';

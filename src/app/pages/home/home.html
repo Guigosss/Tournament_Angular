@@ -1,0 +1,50 @@
+@if (isLoggedIn()) {
+  <div class="flex flex-col gap-6">
+    <section class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <p-card>
+        <p class="text-hint">Win rate</p>
+        <p class="mt-1 text-3xl font-bold">{{ winRate() === null ? '-' : winRate() + '%' }}</p>
+      </p-card>
+      <p-card>
+        <p class="text-hint">Matches played</p>
+        <p class="mt-1 text-3xl font-bold">{{ playedCount() }}</p>
+      </p-card>
+      <p-card>
+        <p class="text-hint">To play</p>
+        <p class="mt-1 text-3xl font-bold">{{ toPlay() }}</p>
+      </p-card>
+      <p-card>
+        <p class="text-hint">Tournaments organized</p>
+        <p class="mt-1 text-3xl font-bold">{{ organized() }}</p>
+      </p-card>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <p-card>
+        <ng-template #title>Your results</ng-template>
+        @if (playedCount() > 0) {
+          <p-chart type="doughnut" [data]="resultsData()" [options]="resultsOptions()" class="block h-64" />
+        } @else {
+          <p class="text-hint">No match played yet.</p>
+        }
+      </p-card>
+
+      <p-card>
+        <ng-template #title>Tournaments by status</ng-template>
+        <p-chart type="bar" [data]="statusData()" [options]="statusOptions()" class="block h-64" />
+      </p-card>
+    </section>
+
+    @if (nextMatch(); as match) {
+      <p-card>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-hint">Next match</p>
+            <p class="text-lg font-semibold">{{ match.tournamentName }}</p>
+          </div>
+          <a pButton [routerLink]="['/tournaments', match.tournamentId]">View bracket</a>
+        </div>
+      </p-card>
+    }
+  </div>
+}

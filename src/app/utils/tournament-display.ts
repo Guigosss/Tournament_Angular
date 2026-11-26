@@ -11,7 +11,6 @@ export const STATUS_SEVERITY: Record<TournamentStatus, TagSeverity> = {
   CANCELED: 'danger',
 };
 
-// Couleur de la barre d'accent à gauche des cartes
 export const STATUS_ACCENT: Record<TournamentStatus, string> = {
   UPCOMING: 'border-l-app-primary',
   REGISTRATION_OPEN: 'border-l-app-success',
@@ -21,7 +20,6 @@ export const STATUS_ACCENT: Record<TournamentStatus, string> = {
   CANCELED: 'border-l-app-danger',
 };
 
-// SINGLE_ELIMINATION -> Single elimination
 export function humanize(value: string): string {
   const text = value.replace(/_/g, ' ').toLowerCase();
   return text.charAt(0).toUpperCase() + text.slice(1);
