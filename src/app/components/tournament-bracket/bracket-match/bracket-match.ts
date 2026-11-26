@@ -2,7 +2,8 @@ import { Component, computed, input, output } from '@angular/core';
 import { Badge } from 'primeng/badge';
 import { ButtonDirective } from 'primeng/button';
 import { Tag } from 'primeng/tag';
-import { BracketParticipant, TournamentMatch } from '../../../models/bracket.model';
+import { BracketParticipant } from '../../../models/participant.model';
+import { TournamentMatch } from '../../../models/match.model';
 import { MATCH_STATUS_SEVERITY } from '../../../utils/match-display';
 import { humanize } from '../../../utils/tournament-display';
 

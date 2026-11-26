@@ -6,8 +6,8 @@ import { TournamentDetail as TournamentDetailModel } from '../../../models/tourn
 import { TournamentOverview } from '../../../components/tournament-detail/tournament-overview/tournament-overview';
 import { TournamentParticipants } from '../../../components/tournament-detail/tournament-participants/tournament-participants';
 import { TournamentParticipantsList } from '../../../components/tournament-detail/tournament-participants-list/tournament-participants-list';
-import {Breadcrumb} from 'primeng/breadcrumb';
-import {MenuItem} from 'primeng/api';
+import { Breadcrumb } from 'primeng/breadcrumb';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-tournament-detail',

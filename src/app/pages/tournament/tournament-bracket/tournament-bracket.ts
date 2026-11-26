@@ -5,9 +5,9 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { Breadcrumb } from 'primeng/breadcrumb';
 import { Message } from 'primeng/message';
-import { ScrollAreaModule } from 'primeng/scrollarea'; // même import que dans tournament-participants-list.ts
+import { ScrollAreaModule } from 'primeng/scrollarea';
 import { Skeleton } from 'primeng/skeleton';
-import { TournamentMatch } from '../../../models/bracket.model';
+import { TournamentMatch } from '../../../models/match.model';
 import { TournamentService } from '../../../services/tournament.service';
 import { BracketRound } from '../../../components/tournament-bracket/bracket-round/bracket-round';
 import { MatchResultDialog } from '../../../components/tournament-bracket/match-result-dialog/match-result-dialog';

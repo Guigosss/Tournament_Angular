@@ -26,10 +26,3 @@ export interface TournamentDetail {
   participantCount: number;
   participants: Participant[];
 }
-
-export interface ParticipantCount {
-  tournamentId: number;
-  current: number;
-  max: number;
-  remaining: number;
-}

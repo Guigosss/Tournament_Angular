@@ -8,3 +8,4 @@ export const MATCH_STATUS_SEVERITY: Record<MatchStatus, TagSeverity> = {
   IN_PROGRESS: 'warn',
   FINISHED: 'success',
 };
+

@@ -62,6 +62,11 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'matches',
+    loadComponent: () => import('./pages/match/match').then((m) => m.Match),
+    canActivate: [authGuard],
+  },
+  {
     path: '**',
     redirectTo: '/home',
   },

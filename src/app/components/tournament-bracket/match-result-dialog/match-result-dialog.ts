@@ -5,7 +5,8 @@ import { ButtonDirective } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputNumber } from 'primeng/inputnumber';
 import { Message } from 'primeng/message';
-import { BracketParticipant, TournamentMatch } from '../../../models/bracket.model';
+import { BracketParticipant } from '../../../models/participant.model';
+import { TournamentMatch } from '../../../models/match.model';
 import { MatchService } from '../../../services/match.service';
 import { FormField } from '../../shared/form-field/form-field';
 

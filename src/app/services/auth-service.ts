@@ -37,8 +37,6 @@ export interface RefreshTokenRequest {
 export class AuthService {
   private readonly http = inject(HttpClient);
 
-  // environment.apiUrl doit contenir la base de l'API,
-  // sans ajouter /auth ici.
   private readonly apiUrl = environment.apiUrl;
 
   readonly user = signal<UserResponse | null>(null);

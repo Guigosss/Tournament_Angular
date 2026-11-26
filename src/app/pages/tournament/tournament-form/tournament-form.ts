@@ -8,7 +8,8 @@ import { TournamentFormat, ParticipantType } from '../../../models/tournament.en
 import { PARTICIPANT_TYPES, TOURNAMENT_FORMATS } from '../../../models/tournament-options';
 import { TournamentSchedule } from '../../../components/tournament-form/tournament-schedule/tournament-schedule';
 import { TournamentGeneralInfo } from '../../../components/tournament-form/tournament-general-info/tournament-general-info';
-import { toLocalDateTime } from '../../../utils/date-time';
+import { fromLocalDateTime, toLocalDateTime } from '../../../utils/date-time';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-tournament-form',
@@ -48,6 +49,35 @@ export class TournamentForm {
     const id = Number(this._route.snapshot.paramMap.get('id'));
     this.tournamentId = id ? id : null;
     this.isEdit = this.tournamentId !== null;
+
+    if (this.tournamentId !== null) {
+      this.loadTournament(this.tournamentId);
+    }
+  }
+
+  //- Edit mode: prefill the form with the current values
+  private loadTournament(id: number): void {
+    this._tournamentService.getTournament(id)
+      .pipe(takeUntilDestroyed())
+      .subscribe({
+        next: ({ tournament }) => {
+          this.form.patchValue({
+            name: tournament.name,
+            description: tournament.description,
+            maxParticipants: tournament.maxParticipants,
+            format: tournament.format,
+            participantType: tournament.participantType,
+            startDate: fromLocalDateTime(tournament.startDate),
+            endDate: fromLocalDateTime(tournament.endDate),
+            registrationStartDate: fromLocalDateTime(tournament.registrationStartDate),
+            registrationEndDate: fromLocalDateTime(tournament.registrationEndDate),
+          });
+        },
+        error: (error) => {
+          console.error('Failed to load tournament', error);
+          this.errorMessage.set('Unable to load the tournament.');
+        },
+      });
   }
 
   submit(): void {

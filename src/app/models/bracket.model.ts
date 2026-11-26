@@ -1,4 +1,5 @@
-import { PhaseType, RoundType, MatchStatus } from './tournament.enums';
+import { PhaseType, RoundType } from './tournament.enums';
+import { TournamentMatch } from './match.model';
 
 export interface TournamentBracket {
   tournamentId: number;
@@ -17,32 +18,4 @@ export interface TournamentRound {
   type: RoundType;
   orderIndex: number;
   matches: TournamentMatch[];
-}
-
-export interface TournamentMatch {
-  id: number;
-
-  participant1: BracketParticipant | null;
-  participant2: BracketParticipant | null;
-
-  score1: number | null;
-  score2: number | null;
-
-  winner: BracketParticipant | null;
-
-  status: MatchStatus;
-  orderIndex: number;
-  scheduledDate: string | null;
-}
-
-export interface BracketParticipant {
-  id: number;
-  userId: number | null;
-  teamId: number | null;
-}
-
-export interface MatchResultRequest {
-  score1: number;
-  score2: number;
-  winnerId: number;
 }

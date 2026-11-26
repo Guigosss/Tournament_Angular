@@ -4,10 +4,10 @@ import { RouterLink } from '@angular/router';
 import { Avatar } from 'primeng/avatar';
 import { ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
-import {Tag, TagSeverity} from 'primeng/tag';
-import {Tournament} from '../../../models/tournament.model';
-import {MetaItem} from '../../shared/meta-item/meta-item';
-import {humanize, STATUS_ACCENT, STATUS_SEVERITY} from '../../../utils/tournament-display';
+import { Tag, TagSeverity } from 'primeng/tag';
+import { Tournament } from '../../../models/tournament.model';
+import { MetaItem } from '../../shared/meta-item/meta-item';
+import { humanize, STATUS_ACCENT, STATUS_SEVERITY } from '../../../utils/tournament-display';
 
 @Component({
   selector: 'app-tournament-card',

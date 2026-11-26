@@ -1,0 +1,65 @@
+<header class="page-header">
+  <div>
+    <h1 class="text-title">My matches</h1>
+    <p class="mt-1 text-hint">
+      {{ counts().play }} to play · {{ counts().upcoming }} upcoming · {{ counts().played }} played
+    </p>
+  </div>
+</header>
+
+@if (hasError()) {
+  <p-message severity="error">Unable to load your matches.</p-message>
+} @else {
+  <div class="flex flex-wrap gap-2">
+    @for (f of filters; track f.key) {
+      <button
+        pButton
+        type="button"
+        size="small"
+        [outlined]="filter() !== f.key"
+        [attr.aria-pressed]="filter() === f.key"
+        (click)="filter.set(f.key)"
+      >
+        {{ f.label }} ({{ counts()[f.key] }})
+      </button>
+    }
+  </div>
+
+  <p-table [value]="visibleMatches()" [loading]="matches() === null" [tableStyle]="{ 'min-width': '44rem' }">
+    <ng-template #header>
+      <tr>
+        <th>Tournament</th>
+        <th>Round</th>
+        <th>Opponent</th>
+        <th>Result</th>
+        <th>Date</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-match>
+      <tr [routerLink]="['/tournaments', match.tournamentId]" class="cursor-pointer">
+        <td class="font-semibold">{{ match.tournamentName }}</td>
+        <td>{{ roundLabel(match) }}</td>
+        <td>
+          @if (opponentName(match)) {
+            {{ opponentName(match) }}
+          } @else {
+            <span class="text-hint italic">To be decided</span>
+          }
+        </td>
+        <td><p-tag [value]="result(match).label" [severity]="result(match).severity" /></td>
+        <td class="text-hint">
+          {{ match.scheduledDate ? (match.scheduledDate | date: 'dd MMM yyyy') : '—' }}
+        </td>
+      </tr>
+    </ng-template>²
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5">
+          {{ filter() === 'all' ? 'You have no matches yet.' : 'No matches in this category.' }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+}

@@ -1,5 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
-import { TournamentMatch, TournamentRound } from '../../../models/bracket.model';
+import { TournamentRound } from '../../../models/bracket.model';
+import { TournamentMatch } from '../../../models/match.model';
 import { humanize } from '../../../utils/tournament-display';
 import { BracketMatch } from '../bracket-match/bracket-match';
 

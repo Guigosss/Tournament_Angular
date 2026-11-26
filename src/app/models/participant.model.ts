@@ -17,10 +17,10 @@ export interface Participant {
   status: RegistrationStatus | null;
 }
 
-export interface ParticipantRanking {
-  participantId: number;
+export interface BracketParticipant {
+  id: number;
   userId: number | null;
-  teamId: number | null;
   username: string | null;
-  rank: number;
+  teamId: number | null;
+  teamName: string | null;
 }

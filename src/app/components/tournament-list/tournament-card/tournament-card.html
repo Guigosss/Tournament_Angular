@@ -9,12 +9,8 @@
 
       <div class="flex flex-wrap items-center gap-3">
         <h2 class="min-w-0 truncate text-heading">{{ tournament().name }}</h2>
-        <p-tag [value]="humanize(tournament().status)" [severity]="statusSeverity()" rounded />
+        <p-tag [value]="humanize(tournament().status)" [severity]="statusSeverity()" />
       </div>
-
-      <p class="mt-1 line-clamp-2 text-hint">
-        {{ tournament().description || 'No description available.' }}
-      </p>
 
       <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-app-soft">
         <app-meta-item icon="pi pi-sitemap">
