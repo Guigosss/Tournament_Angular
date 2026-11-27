@@ -88,7 +88,7 @@ export class TeamDetail implements OnInit {
         this.myJoinRequests.set(requests);
       },
       error: error => {
-        console.error('Erreur chargement des demandes :', error);
+        console.error('Failed to load join requests:', error);
       }
     });
   }
@@ -110,16 +110,16 @@ export class TeamDetail implements OnInit {
         this.myJoinRequests.update(requests => [...requests, request]);
 
         this.joinRequestSuccess.set(
-          'Votre demande a été envoyée au capitaine de cette équipe.'
+          'Your request has been sent to the team captain.'
         );
 
         this.loadingJoinRequest.set(false);
       },
       error: error => {
-        console.error('Erreur demande de rejoindre :', error);
+        console.error('Failed to send join request:', error);
 
         this.joinRequestError.set(
-          error.error?.message || 'Impossible d’envoyer votre demande.'
+          error.error?.message || 'Unable to send your request.'
         );
 
         this.loadingJoinRequest.set(false);
@@ -132,7 +132,7 @@ export class TeamDetail implements OnInit {
     this.loadMyJoinRequests();
 
     if (!Number.isInteger(id) || id <= 0) {
-      this.errorMessage.set('Identifiant d’équipe invalide.');
+      this.errorMessage.set('Invalid team ID.');
       return;
     }
 
@@ -149,8 +149,8 @@ export class TeamDetail implements OnInit {
         this.loading.set(false);
       },
       error: error => {
-        console.error('Erreur chargement équipe :', error);
-        this.errorMessage.set('Impossible de récupérer cette équipe.');
+        console.error('Failed to load team:', error);
+        this.errorMessage.set('Unable to load this team.');
         this.loading.set(false);
       }
     });
@@ -173,8 +173,8 @@ export class TeamDetail implements OnInit {
 
         return this.profilService.searchPlayers(username).pipe(
           catchError(error => {
-            console.error('Erreur recherche joueurs :', error);
-            this.searchError.set('Impossible de rechercher les joueurs.');
+            console.error('Failed to search players:', error);
+            this.searchError.set('Unable to search for players.');
             return of([]);
           }),
           finalize(() => this.searchingPlayers.set(false))
@@ -213,16 +213,16 @@ export class TeamDetail implements OnInit {
         });
 
         this.invitationSuccess.set(
-          `Invitation envoyée à ${player.name}.`
+          `Invitation sent to ${player.name}.`
         );
 
         this.invitingPlayerId.set(null);
       },
       error: error => {
-        console.error('Erreur invitation :', error);
+        console.error('Failed to send invitation:', error);
 
         this.invitationError.set(
-          error.error?.message || 'Impossible d’envoyer l’invitation.'
+          error.error?.message || 'Unable to send the invitation.'
         );
 
         this.invitingPlayerId.set(null);

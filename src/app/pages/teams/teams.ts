@@ -61,8 +61,8 @@ export class Teams implements OnInit {
         this.loadingMyTeams.set(false);
       },
       error: error => {
-        console.error('Erreur mes équipes :', error);
-        this.myTeamsError.set('Impossible de charger vos équipes.');
+        console.error('Failed to load my teams:', error);
+        this.myTeamsError.set('Unable to load your teams.');
         this.loadingMyTeams.set(false);
       }
     });
@@ -78,8 +78,8 @@ export class Teams implements OnInit {
         this.loadingTeams.set(false);
       },
       error: error => {
-        console.error('Erreur équipes disponibles :', error);
-        this.availableTeamsError.set('Impossible de charger les équipes disponibles.');
+        console.error('Failed to load available teams:', error);
+        this.availableTeamsError.set('Unable to load available teams.');
         this.loadingTeams.set(false);
       }
     });
@@ -94,7 +94,7 @@ export class Teams implements OnInit {
     const name = this.newTeamName.trim();
 
     if (!name) {
-      this.myTeamsError.set('Veuillez saisir un nom d’équipe.');
+      this.myTeamsError.set('Please enter a team name.');
       return;
     }
 
@@ -106,7 +106,7 @@ export class Teams implements OnInit {
       next: () => {
         this.newTeamName = '';
         this.creating.set(false);
-        this.successMessage.set('Votre équipe a été créée.');
+        this.successMessage.set('Your team has been created.');
 
         this.loadMyTeams();
         this.loadAvailableTeams();
@@ -114,7 +114,7 @@ export class Teams implements OnInit {
       error: error => {
         this.creating.set(false);
         this.myTeamsError.set(
-          error.error?.message || 'Impossible de créer l’équipe.'
+          error.error?.message || 'Unable to create the team.'
         );
       }
     });

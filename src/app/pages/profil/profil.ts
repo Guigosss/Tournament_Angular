@@ -67,7 +67,7 @@ export class Profil implements OnInit {
     const user = this.authService.user();
 
     if (!user) {
-      this.errorMessage = 'Impossible de récupérer votre utilisateur.';
+      this.errorMessage = 'Unable to retrieve your user.';
       return;
     }
 
@@ -96,9 +96,9 @@ export class Profil implements OnInit {
         this.completeInvitationAction(invitationId, 'ACCEPTED');
       },
       error: error => {
-        console.error('Erreur acceptation invitation :', error);
+        console.error('Failed to accept invitation:', error);
         this.invitationActionError.set(
-          error.error?.message ?? "Impossible d'accepter l'invitation."
+          error.error?.message ?? 'Unable to accept the invitation.'
         );
         this.invitationActionLoadingId.set(null);
       }
@@ -120,9 +120,9 @@ export class Profil implements OnInit {
         this.completeInvitationAction(invitationId, 'REJECTED');
       },
       error: error => {
-        console.error('Erreur refus invitation :', error);
+        console.error('Failed to decline invitation:', error);
         this.invitationActionError.set(
-          error.error?.message ?? "Impossible de refuser l'invitation."
+          error.error?.message ?? 'Unable to decline the invitation.'
         );
         this.invitationActionLoadingId.set(null);
       }
@@ -155,7 +155,7 @@ export class Profil implements OnInit {
       },
       error: error => {
         this.errorMessage =
-          error.error?.message ?? 'Impossible de supprimer votre compte.';
+          error.error?.message ?? 'Unable to delete your account.';
 
         this.deleting = false;
         this.showDeleteModal.set(false);
@@ -179,7 +179,7 @@ export class Profil implements OnInit {
       },
       error: error => {
 
-        this.errorMessage = 'Impossible de charger votre profil.';
+        this.errorMessage = 'Unable to load your profile.';
         this.loading.set(false);
       },
     });
@@ -203,9 +203,9 @@ export class Profil implements OnInit {
         this.loadingInvitations.set(false);
       },
       error: error => {
-        console.error('Erreur chargement invitations :', error);
+        console.error('Failed to load invitations:', error);
         this.invitationActionError.set(
-          'Impossible de charger vos invitations.'
+          'Unable to load your invitations.'
         );
         this.loadingInvitations.set(false);
       }
@@ -245,9 +245,9 @@ export class Profil implements OnInit {
         this.loadingJoinRequests.set(false);
       },
       error: error => {
-        console.error('Erreur chargement demandes :', error);
+        console.error('Failed to load join requests:', error);
         this.joinRequestActionError.set(
-          'Impossible de charger les demandes.'
+          'Unable to load join requests.'
         );
         this.loadingJoinRequests.set(false);
       }
@@ -282,9 +282,9 @@ export class Profil implements OnInit {
         this.completeJoinRequestAction(requestId, 'ACCEPTED');
       },
       error: error => {
-        console.error('Erreur acceptation demande :', error);
+        console.error('Failed to accept join request:', error);
         this.joinRequestActionError.set(
-          error.error?.message ?? "Impossible d'accepter la demande."
+          error.error?.message ?? 'Unable to accept the request.'
         );
         this.joinRequestActionLoadingId.set(null);
       }
@@ -306,9 +306,9 @@ export class Profil implements OnInit {
         this.completeJoinRequestAction(requestId, 'REJECTED');
       },
       error: error => {
-        console.error('Erreur refus demande :', error);
+        console.error('Failed to decline join request:', error);
         this.joinRequestActionError.set(
-          error.error?.message ?? 'Impossible de refuser la demande.'
+          error.error?.message ?? 'Unable to decline the request.'
         );
         this.joinRequestActionLoadingId.set(null);
       }
@@ -333,12 +333,12 @@ export class Profil implements OnInit {
       next: () => {
         this.authService.updateCurrentUser(username);
 
-        this.successMessage = 'Votre pseudo a été modifié.';
+        this.successMessage = 'Your username has been updated.';
         this.saving = false;
       },
       error: (error) => {
         this.errorMessage =
-          error.error?.message ?? 'Impossible de modifier votre pseudo.';
+          error.error?.message ?? 'Unable to update your username.';
         this.saving = false;
       },
     });
@@ -351,7 +351,7 @@ export class Profil implements OnInit {
         this.loadMyJoinRequests();
       },
       error: error => {
-        console.error('Erreur chargement notifications :', error);
+        console.error('Failed to load notifications:', error);
       }
     });
   }
@@ -381,7 +381,7 @@ export class Profil implements OnInit {
         );
       },
       error: error => {
-        console.error('Erreur lors de la lecture de la notification :', error);
+        console.error('Failed to mark notification as read:', error);
       }
     });
   }
