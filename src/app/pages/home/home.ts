@@ -26,7 +26,6 @@ export class Home {
   readonly user = this._authService.user;
   readonly isLoggedIn = computed(() => !!this.user());
 
-  // Data is only loaded once the user is logged in (the API requires authentication)
   readonly matches = toSignal(
     toObservable(this.isLoggedIn).pipe(
       switchMap((loggedIn) =>
@@ -49,7 +48,6 @@ export class Home {
     { initialValue: [] as Tournament[] },
   );
 
-  // --- Key figures ---
   private readonly played = computed(() => this.matches().filter((match) => match.status === 'FINISHED'));
 
   readonly playedCount = computed(() => this.played().length);
@@ -71,12 +69,10 @@ export class Home {
 
   readonly nextMatch = computed(() => this.matches().find((match) => match.status === 'PENDING') ?? null);
 
-  // --- Charts ---
   private cssVar(name: string): string {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   }
 
-  // Chart.js draws on a canvas: colors are read from the theme once the view is rendered
   private readonly colors = signal({ text: '', muted: '', border: '' });
 
   constructor() {
