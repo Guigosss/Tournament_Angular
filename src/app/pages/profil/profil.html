@@ -190,6 +190,9 @@
                       @case ('TEAM_INVITATION') {
                         Invitation à rejoindre une équipe
                       }
+                      @case ('TEAM_JOIN_REQUEST') {
+                        Demande pour rejoindre une équipe
+                      }
                       @default {
                         Notification
                       }
@@ -229,6 +232,141 @@
                   <p class="mt-4 text-xs text-app-muted">
                     Reçue le {{ notification.createdAt | date:'dd/MM/yyyy à HH:mm' }}
                   </p>
+
+                  @if (
+                    notification.type === 'TEAM_INVITATION' &&
+                    notification.invitationId !== null
+                    ) {
+                    <div class="mt-4">
+
+                      @if (loadingInvitations()) {
+                        <p class="text-sm text-app-muted">
+                          Vérification de l'invitation...
+                        </p>
+                      } @else if (invitationStatuses().get(notification.invitationId) === 'PENDING') {
+
+                        @if (invitationActionError()) {
+                          <p class="mb-3 text-sm text-red-400">
+                            {{ invitationActionError() }}
+                          </p>
+                        }
+
+                        <div class="flex flex-wrap gap-3">
+
+                          <button
+                            type="button"
+                            (click)="acceptInvitation(notification)"
+                            [disabled]="invitationActionLoadingId() !== null"
+                            class="rounded-xl bg-[#7020A0] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#8d28b9] disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {{
+                              invitationActionLoadingId() === notification.invitationId
+                                ? 'Traitement...'
+                                : 'Accepter'
+                            }}
+                          </button>
+
+                          <button
+                            type="button"
+                            (click)="rejectInvitation(notification)"
+                            [disabled]="invitationActionLoadingId() !== null"
+                            class="rounded-xl border border-red-500/40 px-5 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            Refuser
+                          </button>
+
+                        </div>
+
+                      } @else if (invitationStatuses().get(notification.invitationId) === 'ACCEPTED') {
+                        <p class="mt-3 text-sm font-semibold text-green-400">
+                          ✓ Invitation acceptée
+                        </p>
+                      }
+                      @else if (invitationStatuses().get(notification.invitationId) === 'REJECTED') {
+                        <p class="mt-3 text-sm font-semibold text-red-400">
+                          ✕ Invitation refusée
+                        </p>
+                      }
+                      @else {
+                        <p class="mt-3 text-sm text-app-muted">
+                          Cette invitation n'est plus disponible.
+                        </p>
+                      }
+
+                    </div>
+                  }
+
+
+                  @if (
+                    notification.type === 'TEAM_JOIN_REQUEST' &&
+                    notification.joinRequestId !== null
+                    ) {
+                    <div class="mt-4">
+
+                      @if (loadingJoinRequests()) {
+                        <p class="text-sm text-app-muted">
+                          Vérification de la demande...
+                        </p>
+                      } @else if (
+                        joinRequestStatuses().get(notification.joinRequestId) === 'PENDING'
+                        ) {
+
+                        @if (joinRequestActionError()) {
+                          <p class="mb-3 text-sm text-red-400">
+                            {{ joinRequestActionError() }}
+                          </p>
+                        }
+
+                        <div class="flex flex-wrap gap-3">
+
+                          <button
+                            type="button"
+                            (click)="acceptJoinRequest(notification)"
+                            [disabled]="joinRequestActionLoadingId() !== null"
+                            class="rounded-xl bg-[#7020A0] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#8d28b9] disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {{
+                              joinRequestActionLoadingId() === notification.joinRequestId
+                                ? 'Traitement...'
+                                : 'Accepter'
+                            }}
+                          </button>
+
+                          <button
+                            type="button"
+                            (click)="rejectJoinRequest(notification)"
+                            [disabled]="joinRequestActionLoadingId() !== null"
+                            class="rounded-xl border border-red-500/40 px-5 py-2 text-sm font-semibold text-red-400 transition hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {{
+                              joinRequestActionLoadingId() === notification.joinRequestId
+                                ? 'Traitement...'
+                                : 'Refuser'
+                            }}
+                          </button>
+
+                        </div>
+
+                      } @else if (
+                        joinRequestStatuses().get(notification.joinRequestId) === 'ACCEPTED'
+                        ) {
+                        <p class="mt-3 text-sm font-semibold text-green-400">
+                          ✓ Demande acceptée
+                        </p>
+                      } @else if (
+                        joinRequestStatuses().get(notification.joinRequestId) === 'REJECTED'
+                        ) {
+                        <p class="mt-3 text-sm font-semibold text-red-400">
+                          ✕ Demande refusée
+                        </p>
+                      } @else {
+                        <p class="mt-3 text-sm text-app-muted">
+                          Cette demande n'est plus disponible.
+                        </p>
+                      }
+
+                    </div>
+                  }
 
                   @if (notification.read) {
                     <p class="mt-3 text-xs text-[#c45cf5]">

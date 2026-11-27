@@ -32,6 +32,133 @@
       </div>
     </div>
 
+    <!-- Actions selon le rôle de l'utilisateur -->
+    <section class="mb-6 rounded-2xl border border-white/10 bg-[#211A29] p-6">
+
+      @if (isCaptain()) {
+
+        <h2 class="mb-2 text-lg font-semibold text-app-text">
+          Gestion de l'équipe
+        </h2>
+
+        <p class="mb-4 text-sm text-app-muted">
+          Inviter de nouveaux joueurs.
+        </p>
+
+        <button
+          type="button"
+          (click)="showInvitationForm.set(!showInvitationForm())"
+          class="rounded-lg bg-[#7020A0] px-5 py-2.5 font-semibold text-white transition hover:bg-[#8d28b9]"
+        >
+          <i class="pi pi-user-plus mr-2"></i>
+          Inviter un joueur
+        </button>
+
+        @if (showInvitationForm()) {
+          <!-- Formulaire de recherche déjà prévu dans le composant -->
+          <div class="mt-5">
+            <input
+              type="text"
+              [value]="searchName()"
+              (input)="searchPlayers($any($event.target).value)"
+              placeholder="Rechercher un joueur..."
+              class="w-full rounded-lg border border-white/10 bg-[#17131D] px-4 py-3 text-app-text outline-none focus:border-[#a83bd8]"
+            />
+
+            @if (searchingPlayers()) {
+              <p class="mt-3 text-sm text-app-muted">
+                Recherche en cours...
+              </p>
+            }
+
+            @if (searchError()) {
+              <p class="mt-3 text-sm text-red-400">{{ searchError() }}</p>
+            }
+
+            @if (availablePlayers().length > 0) {
+              <div class="mt-4 flex flex-col gap-3">
+                @for (player of availablePlayers(); track player.id) {
+                  <div class="flex items-center justify-between rounded-lg bg-[#17131D] p-3">
+                    <span class="text-app-text">{{ player.name }}</span>
+
+                    @if (invitedPlayerIds().has(player.id)) {
+                      <span class="text-sm text-green-400">
+                    Invitation envoyée
+                  </span>
+                    } @else {
+                      <button
+                        type="button"
+                        [disabled]="invitingPlayerId() === player.id"
+                        (click)="invitePlayer(player)"
+                        class="rounded-lg bg-[#7020A0] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                      >
+                        {{ invitingPlayerId() === player.id ? 'Envoi...' : 'Inviter' }}
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+            @if (invitationSuccess()) {
+              <p class="mt-3 text-sm text-green-400">{{ invitationSuccess() }}</p>
+            }
+
+            @if (invitationError()) {
+              <p class="mt-3 text-sm text-red-400">{{ invitationError() }}</p>
+            }
+          </div>
+        }
+
+      } @else if (isMember()) {
+
+        <p class="text-sm text-app-muted">
+          Vous êtes déjà membre de cette équipe.
+        </p>
+
+      } @else if (hasPendingJoinRequest()) {
+
+        <p class="font-medium text-yellow-400">
+          <i class="pi pi-clock mr-2"></i>
+          Votre demande de rejoindre cette équipe est en attente.
+        </p>
+
+      } @else {
+
+        <h2 class="mb-2 text-lg font-semibold text-app-text">
+          Rejoindre cette équipe
+        </h2>
+
+        <p class="mb-4 text-sm text-app-muted">
+          Envoyez une demande au capitaine pour rejoindre cette équipe.
+        </p>
+
+        <button
+          type="button"
+          [disabled]="loadingJoinRequest()"
+          (click)="requestToJoin()"
+          class="rounded-lg bg-[#7020A0] px-5 py-2.5 font-semibold text-white transition hover:bg-[#8d28b9] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <i class="pi pi-send mr-2"></i>
+          {{ loadingJoinRequest() ? 'Envoi...' : 'Demander à rejoindre' }}
+        </button>
+      }
+
+      @if (joinRequestSuccess()) {
+        <p class="mt-4 text-sm text-green-400">
+          <i class="pi pi-check-circle mr-2"></i>
+          {{ joinRequestSuccess() }}
+        </p>
+      }
+
+      @if (joinRequestError()) {
+        <p class="mt-4 text-sm text-red-400">
+          {{ joinRequestError() }}
+        </p>
+      }
+
+    </section>
+
     <section class="rounded-2xl border border-white/10 bg-[#211A29] p-6">
       <h2 class="mb-5 text-xl font-semibold text-app-text">
         Membres de l'équipe
