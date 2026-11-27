@@ -10,6 +10,8 @@ import { AuthService } from '../../../services/auth-service';
 import { ProfilService } from '../../../services/profil-service';
 import { TeamInvitationService } from '../../../services/team-invitation-service';
 import { ProfilResponse } from '../../../models/profil.model';
+import { TeamJoinRequestService } from '../../../services/team-join-request-service';
+import { TeamJoinRequestResponse } from '../../../models/team-join-request.model';
 
 @Component({
   selector: 'app-team-detail',
@@ -22,14 +24,14 @@ export class TeamDetail implements OnInit {
 
   private route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
-
+  private joinRequestService = inject(TeamJoinRequestService);
   private teamService = inject(TeamService);
   private authService = inject(AuthService);
   private profilService = inject(ProfilService);
   private invitationService = inject(TeamInvitationService);
-
   private searchTerms = new Subject<string>();
 
+  showInvitationForm = signal(false);
   team = signal<TeamResponse | null>(null);
   loading = signal(false);
   errorMessage = signal('');
@@ -59,8 +61,75 @@ export class TeamDetail implements OnInit {
     return this.players().filter(player => !members.has(player.id));
   });
 
+  myJoinRequests = signal<TeamJoinRequestResponse[]>([]);
+
+  loadingJoinRequest = signal(false);
+  joinRequestError = signal('');
+  joinRequestSuccess = signal('');
+
+  isMember = computed(() => {
+    const userId = this.authService.user()?.id;
+
+    return !!userId &&
+      (this.team()?.members.some(member => member.id === userId) ?? false);
+  });
+
+  hasPendingJoinRequest = computed(() => {
+    const teamId = this.team()?.id;
+
+    return !!teamId && this.myJoinRequests().some(
+      request => request.teamId === teamId && request.status === 'PENDING'
+    );
+  });
+
+  loadMyJoinRequests(): void {
+    this.joinRequestService.getMine().subscribe({
+      next: requests => {
+        this.myJoinRequests.set(requests);
+      },
+      error: error => {
+        console.error('Erreur chargement des demandes :', error);
+      }
+    });
+  }
+
+  requestToJoin(): void {
+    const teamId = this.team()?.id;
+
+    if (!teamId || this.isMember() || this.isCaptain() ||
+      this.hasPendingJoinRequest()) {
+      return;
+    }
+
+    this.loadingJoinRequest.set(true);
+    this.joinRequestError.set('');
+    this.joinRequestSuccess.set('');
+
+    this.joinRequestService.submit(teamId).subscribe({
+      next: request => {
+        this.myJoinRequests.update(requests => [...requests, request]);
+
+        this.joinRequestSuccess.set(
+          'Votre demande a été envoyée au capitaine de cette équipe.'
+        );
+
+        this.loadingJoinRequest.set(false);
+      },
+      error: error => {
+        console.error('Erreur demande de rejoindre :', error);
+
+        this.joinRequestError.set(
+          error.error?.message || 'Impossible d’envoyer votre demande.'
+        );
+
+        this.loadingJoinRequest.set(false);
+      }
+    });
+  }
+
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadMyJoinRequests();
 
     if (!Number.isInteger(id) || id <= 0) {
       this.errorMessage.set('Identifiant d’équipe invalide.');

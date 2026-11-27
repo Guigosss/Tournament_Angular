@@ -6,6 +6,9 @@ import { AuthService } from '../../services/auth-service';
 import { ProfilService } from '../../services/profil-service';
 import { NotificationResponse } from '../../models/notification.model';
 import { NotificationService } from '../../services/notification-service';
+import { TeamInvitationService } from '../../services/team-invitation-service';
+import { TeamJoinRequestService } from '../../services/team-join-request-service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-profil',
@@ -14,11 +17,13 @@ import { NotificationService } from '../../services/notification-service';
   styleUrl: './profil.css',
 })
 export class Profil implements OnInit {
+  private readonly invitationService = inject(TeamInvitationService);
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly profilService = inject(ProfilService);
   private readonly notificationService = inject(NotificationService);
   private readonly router = inject(Router);
+  private readonly joinRequestService = inject(TeamJoinRequestService);
 
   expandedNotificationId = signal<number | null>(null);
   loading = signal(false);
@@ -28,6 +33,23 @@ export class Profil implements OnInit {
   activeTab = signal<'account' | 'notifications'>('account');
   deleting = false;
   showDeleteModal = signal(false);
+  // Identifiants des invitations encore en attente
+  invitationStatuses = signal<Map<number, 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'CANCELLED'>>(
+    new Map()
+  );
+
+  // Statuts des demandes pour rejoindre une équipe
+  joinRequestStatuses = signal<
+    Map<number, 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'CANCELLED'>
+  >(new Map());
+
+  loadingJoinRequests = signal(false);
+  joinRequestActionLoadingId = signal<number | null>(null);
+  joinRequestActionError = signal('');
+
+  loadingInvitations = signal(false);
+  invitationActionLoadingId = signal<number | null>(null);
+  invitationActionError = signal('');
 
   private userId: number | null = null;
 
@@ -52,10 +74,72 @@ export class Profil implements OnInit {
     this.userId = user.id;
     this.loadProfil();
     this.loadNotifications();
+    this.loadMyInvitations();
   }
 
   confirmDeleteAccount(): void {
     this.showDeleteModal.set(true);
+  }
+
+  acceptInvitation(notification: NotificationResponse): void {
+    const invitationId = notification.invitationId;
+
+    if (invitationId === null || this.invitationActionLoadingId() !== null) {
+      return;
+    }
+
+    this.invitationActionError.set('');
+    this.invitationActionLoadingId.set(invitationId);
+
+    this.invitationService.accept(invitationId).subscribe({
+      next: () => {
+        this.completeInvitationAction(invitationId, 'ACCEPTED');
+      },
+      error: error => {
+        console.error('Erreur acceptation invitation :', error);
+        this.invitationActionError.set(
+          error.error?.message ?? "Impossible d'accepter l'invitation."
+        );
+        this.invitationActionLoadingId.set(null);
+      }
+    });
+  }
+
+  rejectInvitation(notification: NotificationResponse): void {
+    const invitationId = notification.invitationId;
+
+    if (invitationId === null || this.invitationActionLoadingId() !== null) {
+      return;
+    }
+
+    this.invitationActionError.set('');
+    this.invitationActionLoadingId.set(invitationId);
+
+    this.invitationService.reject(invitationId).subscribe({
+      next: () => {
+        this.completeInvitationAction(invitationId, 'REJECTED');
+      },
+      error: error => {
+        console.error('Erreur refus invitation :', error);
+        this.invitationActionError.set(
+          error.error?.message ?? "Impossible de refuser l'invitation."
+        );
+        this.invitationActionLoadingId.set(null);
+      }
+    });
+  }
+
+  private completeInvitationAction(
+    invitationId: number,
+    status: 'ACCEPTED' | 'REJECTED'
+  ): void {
+    this.invitationStatuses.update(statuses => {
+      const updated = new Map(statuses);
+      updated.set(invitationId, status);
+      return updated;
+    });
+
+    this.invitationActionLoadingId.set(null);
   }
 
   deleteAccount(): void {
@@ -101,6 +185,136 @@ export class Profil implements OnInit {
     });
   }
 
+  loadMyInvitations(): void {
+    this.loadingInvitations.set(true);
+
+    this.invitationService.getMine().subscribe({
+      next: invitations => {
+        const statuses = new Map<
+          number,
+          'PENDING' | 'ACCEPTED' | 'REJECTED' | 'CANCELLED'
+        >();
+
+        invitations.forEach(invitation => {
+          statuses.set(invitation.id, invitation.status);
+        });
+
+        this.invitationStatuses.set(statuses);
+        this.loadingInvitations.set(false);
+      },
+      error: error => {
+        console.error('Erreur chargement invitations :', error);
+        this.invitationActionError.set(
+          'Impossible de charger vos invitations.'
+        );
+        this.loadingInvitations.set(false);
+      }
+    });
+  }
+
+  loadMyJoinRequests(): void {
+    const teamIds = [
+      ...new Set(
+        this.notifications()
+          .filter(n => n.type === 'TEAM_JOIN_REQUEST' && n.teamId !== null)
+          .map(n => n.teamId!)
+      )
+    ];
+
+    if (teamIds.length === 0) {
+      this.joinRequestStatuses.set(new Map());
+      return;
+    }
+
+    this.loadingJoinRequests.set(true);
+
+    forkJoin(
+      teamIds.map(teamId => this.joinRequestService.getForTeam(teamId))
+    ).subscribe({
+      next: results => {
+        const statuses = new Map<
+          number,
+          'PENDING' | 'ACCEPTED' | 'REJECTED' | 'CANCELLED'
+        >();
+
+        results.flat().forEach(request => {
+          statuses.set(request.id, request.status);
+        });
+
+        this.joinRequestStatuses.set(statuses);
+        this.loadingJoinRequests.set(false);
+      },
+      error: error => {
+        console.error('Erreur chargement demandes :', error);
+        this.joinRequestActionError.set(
+          'Impossible de charger les demandes.'
+        );
+        this.loadingJoinRequests.set(false);
+      }
+    });
+  }
+
+  private completeJoinRequestAction(
+    requestId: number,
+    status: 'ACCEPTED' | 'REJECTED'
+  ): void {
+    this.joinRequestStatuses.update(statuses => {
+      const updated = new Map(statuses);
+      updated.set(requestId, status);
+      return updated;
+    });
+
+    this.joinRequestActionLoadingId.set(null);
+  }
+
+  acceptJoinRequest(notification: NotificationResponse): void {
+    const requestId = notification.joinRequestId;
+
+    if (requestId === null || this.joinRequestActionLoadingId() !== null) {
+      return;
+    }
+
+    this.joinRequestActionError.set('');
+    this.joinRequestActionLoadingId.set(requestId);
+
+    this.joinRequestService.accept(requestId).subscribe({
+      next: () => {
+        this.completeJoinRequestAction(requestId, 'ACCEPTED');
+      },
+      error: error => {
+        console.error('Erreur acceptation demande :', error);
+        this.joinRequestActionError.set(
+          error.error?.message ?? "Impossible d'accepter la demande."
+        );
+        this.joinRequestActionLoadingId.set(null);
+      }
+    });
+  }
+
+  rejectJoinRequest(notification: NotificationResponse): void {
+    const requestId = notification.joinRequestId;
+
+    if (requestId === null || this.joinRequestActionLoadingId() !== null) {
+      return;
+    }
+
+    this.joinRequestActionError.set('');
+    this.joinRequestActionLoadingId.set(requestId);
+
+    this.joinRequestService.reject(requestId).subscribe({
+      next: () => {
+        this.completeJoinRequestAction(requestId, 'REJECTED');
+      },
+      error: error => {
+        console.error('Erreur refus demande :', error);
+        this.joinRequestActionError.set(
+          error.error?.message ?? 'Impossible de refuser la demande.'
+        );
+        this.joinRequestActionLoadingId.set(null);
+      }
+    });
+  }
+
   updateProfil(): void {
     if (this.profilForm.invalid || this.userId === null) {
       this.profilForm.markAllAsTouched();
@@ -134,6 +348,7 @@ export class Profil implements OnInit {
     this.notificationService.getMine().subscribe({
       next: notifications => {
         this.notifications.set(notifications);
+        this.loadMyJoinRequests();
       },
       error: error => {
         console.error('Erreur chargement notifications :', error);
